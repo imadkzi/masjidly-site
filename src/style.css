@@ -1,0 +1,5 @@
+/* Base reset — app styles live in App.vue and components */
+#app {
+  width: 100%;
+  min-width: 0;
+}

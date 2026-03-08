@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">
+  <defs>
+    <filter id="emboss" x="-15%" y="-15%" width="130%" height="130%">
+      <feDropShadow dx="0.35" dy="0.35" stdDeviation="0.1" flood-color="#050d0f" flood-opacity="0.9"/>
+    </filter>
+    <pattern id="islamic-geom" x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse">
+      <g filter="url(#emboss)">
+        <!-- Octagonal frames (within bounds) -->
+        <path d="M100,15 L135,35 L155,70 L155,105 L135,140 L100,160 L65,140 L45,105 L45,70 L65,35 Z" fill="none" stroke="rgba(201,168,76,0.6)" stroke-width="1.2"/>
+        <path d="M100,115 L135,135 L155,170 L155,205 L135,240 L100,260 L65,240 L45,205 L45,170 L65,135 Z" fill="none" stroke="rgba(201,168,76,0.55)" stroke-width="1.1"/>
+        <path d="M195,65 L230,85 L250,120 L250,155 L230,190 L195,210 L160,190 L140,155 L140,120 L160,85 Z" fill="none" stroke="rgba(201,168,76,0.6)" stroke-width="1.2"/>
+        <path d="M5,65 L40,85 L60,120 L60,155 L40,190 L5,210 L-30,190 L-50,155 L-50,120 L-30,85 Z" fill="none" stroke="rgba(201,168,76,0.6)" stroke-width="1.2"/>
+        <!-- 8-pointed stars -->
+        <path d="M100,45 L110,72 L137,72 L112,91 L122,118 L100,103 L78,118 L88,91 L63,72 L90,72 Z" fill="rgba(201,168,76,0.24)" stroke="rgba(201,168,76,0.68)" stroke-width="1.1"/>
+        <path d="M100,145 L109,170 L134,170 L110,187 L118,212 L100,199 L82,212 L90,187 L66,170 L91,170 Z" fill="rgba(201,168,76,0.22)" stroke="rgba(201,168,76,0.62)" stroke-width="1"/>
+        <path d="M190,100 L200,127 L227,127 L202,146 L212,173 L190,158 L168,173 L178,146 L153,127 L180,127 Z" fill="rgba(201,168,76,0.24)" stroke="rgba(201,168,76,0.68)" stroke-width="1.1"/>
+        <path d="M10,100 L20,127 L47,127 L22,146 L32,173 L10,158 L-12,173 L-2,146 L-27,127 L0,127 Z" fill="rgba(201,168,76,0.24)" stroke="rgba(201,168,76,0.68)" stroke-width="1.1"/>
+        <!-- 12-pointed stars -->
+        <path d="M100,88 L105,97 L115,97 L108,105 L111,115 L100,110 L89,115 L92,105 L85,97 L95,97 Z" fill="rgba(201,168,76,0.16)" stroke="rgba(201,168,76,0.55)" stroke-width="0.95"/>
+        <path d="M152,52 L157,61 L167,61 L160,69 L163,79 L152,74 L141,79 L144,69 L137,61 L147,61 Z" fill="rgba(201,168,76,0.16)" stroke="rgba(201,168,76,0.55)" stroke-width="0.95"/>
+        <path d="M48,52 L53,61 L63,61 L56,69 L59,79 L48,74 L37,79 L40,69 L33,61 L43,61 Z" fill="rgba(201,168,76,0.16)" stroke="rgba(201,168,76,0.55)" stroke-width="0.95"/>
+        <path d="M152,148 L157,157 L167,157 L160,165 L163,175 L152,170 L141,175 L144,165 L137,157 L147,157 Z" fill="rgba(201,168,76,0.16)" stroke="rgba(201,168,76,0.55)" stroke-width="0.95"/>
+        <!-- Elongated hexagons / strapwork -->
+        <path d="M100,72 L124,72 L140,90 L124,108 L100,108 L84,90 Z" fill="none" stroke="rgba(201,168,76,0.55)" stroke-width="1.05"/>
+        <path d="M60,90 L84,90 L100,108 L84,126 L60,126 L44,108 Z" fill="none" stroke="rgba(201,168,76,0.55)" stroke-width="1.05"/>
+        <path d="M140,90 L164,90 L180,108 L164,126 L140,126 L124,108 Z" fill="none" stroke="rgba(201,168,76,0.55)" stroke-width="1.05"/>
+        <path d="M100,108 L124,108 L140,126 L124,144 L100,144 L84,126 Z" fill="none" stroke="rgba(201,168,76,0.55)" stroke-width="1.05"/>
+        <path d="M124,72 L148,72 L164,90 L148,108 L124,108 L108,90 Z" fill="none" stroke="rgba(201,168,76,0.5)" stroke-width="0.95"/>
+        <path d="M52,90 L76,90 L92,108 L76,126 L52,126 L36,108 Z" fill="none" stroke="rgba(201,168,76,0.5)" stroke-width="0.95"/>
+        <!-- Inner diamonds -->
+        <path d="M100,72 L114,86 L100,100 L86,86 Z" fill="rgba(201,168,76,0.14)" stroke="rgba(201,168,76,0.45)" stroke-width="0.75"/>
+        <path d="M140,72 L154,86 L140,100 L126,86 Z" fill="rgba(201,168,76,0.14)" stroke="rgba(201,168,76,0.45)" stroke-width="0.75"/>
+        <!-- Interlacing connector lines -->
+        <path d="M84,90 L100,90 L100,108 M116,90 L100,90 M100,126 L100,108 M84,126 L100,126" fill="none" stroke="rgba(201,168,76,0.5)" stroke-width="0.85"/>
+        <path d="M124,90 L140,90 L140,108 M156,90 L140,90 M140,126 L140,108 M124,126 L140,126" fill="none" stroke="rgba(201,168,76,0.5)" stroke-width="0.85"/>
+        <path d="M100,108 L114,108 L114,126 M128,108 L114,108 M114,144 L114,126 M100,144 L114,144" fill="none" stroke="rgba(201,168,76,0.5)" stroke-width="0.85"/>
+      </g>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#islamic-geom)"/>
+</svg>
