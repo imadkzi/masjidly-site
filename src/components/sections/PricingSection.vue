@@ -110,14 +110,15 @@ import { scrollToId } from '@/utils/format'
 }
 
 .price-card {
-  background: rgba(245, 240, 232, 0.02);
-  border: 1px solid rgba(245, 240, 232, 0.18);
+  background: rgba(245, 240, 232, 0.08);
+  border: 1px solid rgba(245, 240, 232, 0.3);
   padding: 24px 20px;
   display: flex;
   flex-direction: column;
   gap: 14px;
   transition: border-color 0.2s, background 0.2s;
   border-radius: 14px;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.5);
 }
 
 /* Staggered scroll-in animation for pricing cards */
@@ -145,8 +146,8 @@ import { scrollToId } from '@/utils/format'
 }
 
 .price-card:hover {
-  background: rgba(245, 240, 232, 0.04);
-  border-color: rgba(245, 240, 232, 0.15);
+  background: rgba(245, 240, 232, 0.14);
+  border-color: rgba(245, 240, 232, 0.45);
 }
 
 .price-card.hosted:not(.featured) {
@@ -164,12 +165,12 @@ import { scrollToId } from '@/utils/format'
 }
 
 .price-card.featured {
-  border-color: rgba(201, 168, 76, 0.55);
-  background: rgba(201, 168, 76, 0.08);
+  border-color: rgba(201, 168, 76, 0.75);
+  background: rgba(201, 168, 76, 0.22);
 }
 .price-card.featured:hover {
-  background: rgba(201, 168, 76, 0.12);
-  border-color: rgba(201, 168, 76, 0.7);
+  background: rgba(201, 168, 76, 0.3);
+  border-color: rgba(201, 168, 76, 0.9);
 }
 
 .price-tier-row {
@@ -316,9 +317,9 @@ import { scrollToId } from '@/utils/format'
 }
 
 .player-banner {
-  background: rgba(201, 168, 76, 0.06);
-  border: 1px solid rgba(201, 168, 76, 0.2);
-  border-radius: 8px;
+  background: rgba(201, 168, 76, 0.18);
+  border: 1px solid rgba(201, 168, 76, 0.5);
+  border-radius: 14px;
   padding: 32px 36px;
   display: grid;
   grid-template-columns: 1fr auto;
@@ -326,6 +327,7 @@ import { scrollToId } from '@/utils/format'
   align-items: center;
   position: relative;
   z-index: 1;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.55);
 }
 
 .player-tag {
