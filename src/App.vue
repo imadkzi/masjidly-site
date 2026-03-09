@@ -51,6 +51,8 @@ useScrollAnimation('[data-animate]', 80)
   --section-padding-x: clamp(16px, 3vw, 48px);
   --section-padding-y: clamp(32px, 4vw, 72px);
   --section-gap: clamp(14px, 1.5vw, 24px);
+  /* Fixed nav height (for anchor offset + top padding) - updated at runtime */
+  --nav-offset: 64px;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -119,6 +121,17 @@ body::after {
 }
 
 .app { width: 100%; }
+
+main {
+  /* Prevent content from sliding under fixed nav, especially on iOS Safari */
+  padding-top: var(--nav-offset);
+}
+
+/* Ensure in-page anchors account for fixed nav height */
+section[id] {
+  scroll-margin-top: var(--nav-offset);
+}
+
 
 .section-container {
   max-width: var(--container-max);

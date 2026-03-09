@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { features } from '@/data/siteContent'
 import AppIcon from '@/components/icons/AppIcon.vue'
 
@@ -7,6 +7,10 @@ const openFeature = ref(null)
 function toggleFeature(i) {
   openFeature.value = openFeature.value === i ? null : i
 }
+
+const midpoint = computed(() => Math.ceil(features.items.length / 2))
+const leftFeatures = computed(() => features.items.slice(0, midpoint.value))
+const rightFeatures = computed(() => features.items.slice(midpoint.value))
 </script>
 
 <template>
@@ -17,24 +21,45 @@ function toggleFeature(i) {
       <h2 class="section-heading">{{ features.title }}</h2>
       <p class="section-desc">{{ features.description }}</p>
     </header>
-    <!-- Desktop: full list -->
-    <ul class="feature-list feature-desktop">
-      <li
-        v-for="(item, i) in features.items"
-        :key="i"
-        class="feature-row"
-        data-animate
-      >
-        <span class="feature-num">{{ String(i + 1).padStart(2, '0') }}</span>
-        <div class="feature-icon-wrap">
-          <AppIcon :name="item.icon" />
-        </div>
-        <div class="feature-text">
-          <h3 class="feature-title">{{ item.title }}</h3>
-          <p class="feature-body">{{ item.body }}</p>
-        </div>
-      </li>
-    </ul>
+    <!-- Desktop: two-column list (1,4 / 2,5 / 3,6) -->
+    <div class="feature-desktop">
+      <ul class="feature-list">
+        <li
+          v-for="(item, i) in leftFeatures"
+          :key="`left-${i}`"
+          class="feature-row"
+          data-animate
+        >
+          <span class="feature-num">{{ String(i + 1).padStart(2, '0') }}</span>
+          <div class="feature-icon-wrap">
+            <AppIcon :name="item.icon" />
+          </div>
+          <div class="feature-text">
+            <h3 class="feature-title">{{ item.title }}</h3>
+            <p class="feature-body">{{ item.body }}</p>
+          </div>
+        </li>
+      </ul>
+      <ul class="feature-list">
+        <li
+          v-for="(item, i) in rightFeatures"
+          :key="`right-${i}`"
+          class="feature-row"
+          data-animate
+        >
+          <span class="feature-num">{{
+            String(midpoint + i + 1).padStart(2, '0')
+          }}</span>
+          <div class="feature-icon-wrap">
+            <AppIcon :name="item.icon" />
+          </div>
+          <div class="feature-text">
+            <h3 class="feature-title">{{ item.title }}</h3>
+            <p class="feature-body">{{ item.body }}</p>
+          </div>
+        </li>
+      </ul>
+    </div>
     <!-- Mobile: accordion -->
     <ul class="feature-list feature-mobile">
       <li
@@ -101,9 +126,12 @@ function toggleFeature(i) {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
+}
+
+.feature-desktop {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 32px;
 }
 
 .feature-mobile { display: none; }
@@ -152,17 +180,14 @@ function toggleFeature(i) {
 }
 
 .feature-row {
-  display: grid;
-  grid-template-columns: 48px 56px 1fr;
-  gap: 24px;
+  display: flex;
+  gap: 18px;
   align-items: flex-start;
-  padding: 32px 0;
-  border-bottom: 1px solid var(--border);
 }
 
-.feature-row:first-child { padding-top: 0; }
-
-.feature-row:last-child { border-bottom: none; }
+.feature-row + .feature-row {
+  margin-top: 25px;
+}
 
 .feature-num {
   font-family: 'DM Mono', monospace;

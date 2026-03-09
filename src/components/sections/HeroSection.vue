@@ -54,7 +54,9 @@ const heroScreenPlaceholder =
   display: flex;
   align-items: center;
   padding: clamp(48px, 6vw, 80px) 0;
-  background: var(--ink);
+  background:
+    var(--ink)
+    url("/ink-pattern.svg") center top / cover no-repeat;
   position: relative;
   overflow: hidden;
 }
@@ -200,9 +202,6 @@ const heroScreenPlaceholder =
   }
 }
 @media (max-width: 600px) {
-  .hero-section {
-    padding: 88px 0 48px;
-  }
   .hero-title {
     font-size: clamp(30px, 8vw, 42px);
   }
