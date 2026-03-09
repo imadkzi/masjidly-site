@@ -54,6 +54,8 @@ const heroScreenPlaceholder =
   display: flex;
   align-items: center;
   padding: clamp(48px, 6vw, 80px) 0;
+  /* Ensure hero content starts below fixed nav + iOS safe-area inset */
+  padding-top: calc(var(--nav-offset) + env(safe-area-inset-top, 0px) + clamp(24px, 5vw, 56px));
   background:
     var(--ink)
     url("/ink-pattern.svg") center top / cover no-repeat;
