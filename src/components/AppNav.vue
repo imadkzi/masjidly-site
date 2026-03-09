@@ -110,6 +110,7 @@ watch(menuOpen, (open) => {
   z-index: 100;
   background: rgba(245, 240, 232, 0.98);
   border-bottom: 1px solid transparent;
+  padding-top: env(safe-area-inset-top, 0px);
   transition:
     background 0.25s ease,
     backdrop-filter 0.25s ease,
