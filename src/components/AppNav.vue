@@ -5,17 +5,10 @@ import { scrollToId } from "@/utils/format";
 
 const menuOpen = ref(false);
 const isScrolled = ref(false);
+const showNav = ref(true);
 const navEl = ref(null);
 
-function updateNavOffset() {
-  const el = navEl.value;
-  if (!el || typeof window === "undefined" || typeof document === "undefined")
-    return;
-  const height = el.offsetHeight || 0;
-  const root = document.documentElement;
-  // Add a small buffer so sections don't touch the nav
-  root.style.setProperty("--nav-offset", `${height + 8}px`);
-}
+let lastScrollY = 0;
 
 function closeMenu() {
   menuOpen.value = false;
@@ -27,18 +20,34 @@ function handleNavClick(href) {
 }
 
 function onScroll() {
-  isScrolled.value = window.scrollY > 24;
+  const current = window.scrollY || 0;
+  isScrolled.value = current > 24;
+
+  const delta = current - lastScrollY;
+
+  // Always show nav near the very top
+  if (current <= 0) {
+    showNav.value = true;
+  } else if (delta > 0) {
+    // Scrolling down
+    showNav.value = false;
+  } else if (delta < 0) {
+    // Scrolling up
+    showNav.value = true;
+  }
+
+  lastScrollY = current;
 }
 
 onMounted(() => {
+  if (typeof window !== "undefined") {
+    lastScrollY = window.scrollY || 0;
+  }
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });
-  updateNavOffset();
-  window.addEventListener("resize", updateNavOffset, { passive: true });
 });
 onUnmounted(() => {
   window.removeEventListener("scroll", onScroll);
-  window.removeEventListener("resize", updateNavOffset);
 });
 
 watch(menuOpen, (open) => {
@@ -47,7 +56,7 @@ watch(menuOpen, (open) => {
 </script>
 
 <template>
-  <nav class="app-nav" :class="{ scrolled: isScrolled }" ref="navEl">
+  <nav class="app-nav" :class="{ scrolled: isScrolled, hidden: !showNav }" ref="navEl">
     <div class="nav-container">
       <a href="#" class="nav-logo" @click.prevent="handleNavClick('#hero')">
         <img src="/logo-full.svg" alt="Masjidly" class="nav-logo-img" />
@@ -103,17 +112,32 @@ watch(menuOpen, (open) => {
 
 <style scoped>
 .app-nav {
-  position: -webkit-sticky;
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
   background: rgba(245, 240, 232, 0.98);
   border-bottom: 1px solid transparent;
-  padding-top: env(safe-area-inset-top, 0px);
   transition:
+    transform 0.25s ease,
     background 0.25s ease,
     backdrop-filter 0.25s ease,
     border-color 0.25s ease;
+}
+.app-nav::before {
+  /* Safe-area box above the nav to cover the notch area */
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: env(safe-area-inset-top, 0px);
+  background: rgba(245, 240, 232, 0.98);
+  z-index: -1;
+}
+.app-nav.hidden {
+  transform: translateY(-100%);
 }
 .app-nav.scrolled {
   background: rgba(245, 240, 232, 0.78);
