@@ -50,7 +50,7 @@ const heroScreenPlaceholder =
 
 <style scoped>
 .hero-section {
-  min-height: 85vh;
+  min-height: 85dvh;
   display: flex;
   align-items: center;
   padding: clamp(48px, 6vw, 80px) 0;
@@ -179,7 +179,7 @@ const heroScreenPlaceholder =
 
 @media (max-width: 900px) {
   .hero-section {
-    min-height: 70vh;
+    min-height: 70dvh;
   }
   .hero-layout {
     grid-template-columns: 1fr;

@@ -103,10 +103,9 @@ watch(menuOpen, (open) => {
 
 <style scoped>
 .app-nav {
-  position: fixed;
+  position: -webkit-sticky;
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
   z-index: 100;
   background: rgba(245, 240, 232, 0.98);
   border-bottom: 1px solid transparent;

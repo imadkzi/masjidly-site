@@ -123,13 +123,13 @@ body::after {
 .app { width: 100%; }
 
 main {
-  /* Prevent content from sliding under fixed nav, especially on iOS Safari */
-  padding-top: var(--nav-offset);
+  /* Prevent content from sliding under fixed nav, including iOS notch area */
+  padding-top: calc(var(--nav-offset) + env(safe-area-inset-top, 0px));
 }
 
-/* Ensure in-page anchors account for fixed nav height */
+/* Ensure in-page anchors account for fixed nav height + safe area */
 section[id] {
-  scroll-margin-top: var(--nav-offset);
+  scroll-margin-top: calc(var(--nav-offset) + env(safe-area-inset-top, 0px));
 }
 
 
