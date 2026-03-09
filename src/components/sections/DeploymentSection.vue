@@ -6,34 +6,39 @@ import AppIcon from '@/components/icons/AppIcon.vue'
 <template>
   <section id="deployment" class="deploy-section">
     <div class="section-container">
-    <header class="section-header" data-animate="fade-left">
-      <span class="section-tag">{{ deployment.label }}</span>
-      <h2 class="section-heading">{{ deployment.title }}</h2>
-      <p class="section-desc">{{ deployment.description }}</p>
-    </header>
-    <div class="deploy-list">
-      <article
-        v-for="(opt, i) in deployment.options"
-        :key="i"
-        class="deploy-block"
-        data-animate
-      >
-        <div class="deploy-block-header">
-          <span class="deploy-pill" :class="opt.badgeVariant">{{ opt.badge }}</span>
-          <div class="deploy-icon-wrap">
-            <AppIcon :name="opt.icon" :size="24" />
-          </div>
+      <header class="section-header" data-animate="fade-left">
+        <span class="section-tag">{{ deployment.label }}</span>
+        <h2 class="section-heading">{{ deployment.title }}</h2>
+        <p class="section-desc">{{ deployment.description }}</p>
+      </header>
+
+      <div class="deploy-layout">
+        <div class="deploy-list">
+          <article
+            v-for="(opt, i) in deployment.options"
+            :key="i"
+            class="deploy-block"
+            data-animate
+          >
+            <div class="deploy-block-header">
+              <span class="deploy-pill" :class="opt.badgeVariant">
+                {{ opt.badge }}
+              </span>
+              <div class="deploy-icon-wrap">
+                <AppIcon :name="opt.icon" :size="24" />
+              </div>
+            </div>
+            <h3 class="deploy-name">{{ opt.name }}</h3>
+            <p class="deploy-desc">{{ opt.description }}</p>
+            <ul class="deploy-features">
+              <li v-for="(f, j) in opt.features" :key="j">
+                <AppIcon name="check" :size="12" />
+                {{ f }}
+              </li>
+            </ul>
+          </article>
         </div>
-        <h3 class="deploy-name">{{ opt.name }}</h3>
-        <p class="deploy-desc">{{ opt.description }}</p>
-        <ul class="deploy-features">
-          <li v-for="(f, j) in opt.features" :key="j">
-            <AppIcon name="check" :size="12" />
-            {{ f }}
-          </li>
-        </ul>
-      </article>
-    </div>
+      </div>
     </div>
   </section>
 </template>
@@ -44,7 +49,7 @@ import AppIcon from '@/components/icons/AppIcon.vue'
   background: var(--cream-dark);
 }
 
-.section-header { margin-bottom: 0; }
+.section-header { margin-bottom: 32px; }
 .section-tag {
   font-family: 'DM Mono', monospace;
   font-size: 11px;
@@ -70,23 +75,53 @@ import AppIcon from '@/components/icons/AppIcon.vue'
   max-width: 520px;
 }
 
-.deploy-list {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 28px;
+.deploy-layout {
   margin-top: 48px;
 }
 
+.deploy-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
 .deploy-block {
-  padding: 32px 28px;
+  padding: 26px 24px 24px;
   background: var(--white);
-  border-left: 4px solid var(--teal);
-  transition: border-color 0.2s, box-shadow 0.2s;
+  border-radius: 14px;
+  border: 1px solid rgba(17, 43, 50, 0.09);
+  box-shadow: 0 14px 40px rgba(17, 43, 50, 0.08);
+  transition:
+    transform 0.18s ease-out,
+    box-shadow 0.18s ease-out,
+    border-color 0.18s ease-out;
+}
+
+/* Staggered scroll-in animation for deployment cards */
+.deploy-list .deploy-block[data-animate] {
+  transition-delay: 0s;
+}
+.deploy-list .deploy-block[data-animate]:nth-child(2) {
+  transition-delay: 0.06s;
+}
+.deploy-list .deploy-block[data-animate]:nth-child(3) {
+  transition-delay: 0.12s;
+}
+
+/* Stronger scroll motion for deployment cards */
+.deploy-list .deploy-block[data-animate].anim-ready {
+  opacity: 0;
+  transform: translateY(26px) scale(0.96);
+}
+.deploy-list .deploy-block[data-animate].anim-ready.in {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
 .deploy-block:hover {
-  border-left-color: var(--gold);
-  box-shadow: 0 8px 32px rgba(17, 43, 50, 0.06);
+  transform: translateY(-4px);
+  border-color: rgba(201, 168, 76, 0.6);
+  box-shadow: 0 18px 50px rgba(17, 43, 50, 0.14);
 }
 
 .deploy-block-header {
@@ -102,12 +137,13 @@ import AppIcon from '@/components/icons/AppIcon.vue'
   letter-spacing: 0.12em;
   text-transform: uppercase;
   padding: 5px 12px;
-  background: var(--teal);
-  color: var(--white);
+  background: rgba(42, 110, 127, 0.1);
+  color: var(--teal);
+  border-radius: 999px;
 }
 
 .deploy-pill.gold {
-  background: var(--gold);
+  background: rgba(201, 168, 76, 0.18);
   color: var(--ink);
 }
 
@@ -133,8 +169,6 @@ import AppIcon from '@/components/icons/AppIcon.vue'
   line-height: 1.6;
   color: var(--muted);
   margin: 0 0 20px 0;
-  padding-bottom: 20px;
-  border-bottom: 1px solid var(--border);
 }
 
 .deploy-features {
@@ -145,7 +179,7 @@ import AppIcon from '@/components/icons/AppIcon.vue'
 
 .deploy-features li {
   font-size: 13px;
-  color: var(--ink);
+  color: var(--muted);
   display: flex;
   gap: 10px;
   padding: 6px 0;

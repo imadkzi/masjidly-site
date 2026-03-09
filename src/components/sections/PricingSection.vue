@@ -77,7 +77,9 @@ import { scrollToId } from '@/utils/format'
 
 <style scoped>
 .pricing-section {
-  background: var(--ink);
+  background:
+    var(--ink)
+    url("/ink-pattern.svg") center top / cover no-repeat;
   padding: var(--section-padding-y) 0;
   position: relative;
   overflow: hidden;
@@ -109,14 +111,37 @@ import { scrollToId } from '@/utils/format'
 
 .price-card {
   background: rgba(245, 240, 232, 0.02);
-  border: 1px solid rgba(245, 240, 232, 0.08);
-  border-left: 3px solid rgba(245, 240, 232, 0.12);
+  border: 1px solid rgba(245, 240, 232, 0.18);
   padding: 24px 20px;
   display: flex;
   flex-direction: column;
   gap: 14px;
   transition: border-color 0.2s, background 0.2s;
-  border-radius: 6px;
+  border-radius: 14px;
+}
+
+/* Staggered scroll-in animation for pricing cards */
+.pricing-grid .price-card[data-animate] {
+  transition-delay: 0s;
+}
+.pricing-grid .price-card[data-animate]:nth-child(2) {
+  transition-delay: 0.05s;
+}
+.pricing-grid .price-card[data-animate]:nth-child(3) {
+  transition-delay: 0.1s;
+}
+.pricing-grid .price-card[data-animate]:nth-child(4) {
+  transition-delay: 0.15s;
+}
+
+/* Stronger scroll motion for pricing cards */
+.pricing-grid .price-card[data-animate].anim-ready {
+  opacity: 0;
+  transform: translateY(26px) scale(0.96);
+}
+.pricing-grid .price-card[data-animate].anim-ready.in {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
 .price-card:hover {
@@ -139,16 +164,12 @@ import { scrollToId } from '@/utils/format'
 }
 
 .price-card.featured {
-  border: 1px solid rgba(201, 168, 76, 0.25);
-  border-left-width: 3px;
-  border-top-width: 3px;
-  border-left-color: var(--gold);
-  border-top-color: var(--gold);
-  background: rgba(201, 168, 76, 0.06);
+  border-color: rgba(201, 168, 76, 0.55);
+  background: rgba(201, 168, 76, 0.08);
 }
 .price-card.featured:hover {
-  background: rgba(201, 168, 76, 0.1);
-  border-color: rgba(201, 168, 76, 0.35);
+  background: rgba(201, 168, 76, 0.12);
+  border-color: rgba(201, 168, 76, 0.7);
 }
 
 .price-tier-row {

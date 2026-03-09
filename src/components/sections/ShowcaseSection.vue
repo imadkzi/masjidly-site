@@ -4,39 +4,10 @@ import { showcase } from "@/data/siteContent";
 
 const activeTab = ref("display");
 
-// Add your screenshots to public/showcase/ (display.png, cms.png, wall.png) and set image: '/showcase/display.png' etc
-const showcaseItems = [
-  {
-    id: "display",
-    label: "TV Display",
-    caption:
-      "The full-screen prayer display your congregation sees — prayer times, announcements, and scrolling notices.",
-    placeholder:
-      "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='506' viewBox='0 0 900 506'%3E%3Crect fill='%231a2830' width='900' height='506'/%3E%3Ctext x='50%25' y='50%25' fill='%23c9a84c' font-family='sans-serif' font-size='20' text-anchor='middle' dy='.3em' opacity='0.8'%3ETV Display Screenshot%3C/text%3E%3C/svg%3E",
-    image: null,
-  },
-  {
-    id: "cms",
-    label: "CMS Dashboard",
-    caption:
-      "The browser dashboard your committee uses to manage prayer times, announcements, and branding.",
-    placeholder:
-      "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='506' viewBox='0 0 900 506'%3E%3Crect fill='%231e2a30' width='900' height='506'/%3E%3Ctext x='50%25' y='50%25' fill='%23c9a84c' font-family='sans-serif' font-size='20' text-anchor='middle' dy='.3em' opacity='0.8'%3ECMS Dashboard Screenshot%3C/text%3E%3C/svg%3E",
-    image: null,
-  },
-  {
-    id: "wall",
-    label: "Wall Mockup",
-    caption:
-      "How Masjidly looks installed in a real prayer hall — wall-mounted display, Raspberry Pi behind the screen.",
-    placeholder:
-      "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='506' viewBox='0 0 900 506'%3E%3Crect fill='%23162e35' width='900' height='506'/%3E%3Ctext x='50%25' y='50%25' fill='%23c9a84c' font-family='sans-serif' font-size='20' text-anchor='middle' dy='.3em' opacity='0.8'%3EWall Installation Photo%3C/text%3E%3C/svg%3E",
-    image: null,
-  },
-];
-
 const activeItem = computed(
-  () => showcaseItems.find((item) => item.id === activeTab.value) ?? showcaseItems[0]
+  () =>
+    showcase.items?.find((item) => item.id === activeTab.value) ??
+    showcase.items?.[0]
 );
 </script>
 
@@ -51,7 +22,7 @@ const activeItem = computed(
 
       <div class="showcase-nav" data-animate>
         <button
-          v-for="item in showcaseItems"
+          v-for="item in showcase.items"
           :key="item.id"
           class="showcase-nav-btn"
           :class="{ active: activeTab === item.id }"
@@ -80,7 +51,9 @@ const activeItem = computed(
 
 <style scoped>
 .showcase-section {
-  background: var(--ink);
+  background:
+    var(--ink)
+    url("/ink-pattern.svg") center top / cover no-repeat;
   padding: var(--section-padding-y) 0;
   overflow: hidden;
   position: relative;

@@ -5,6 +5,17 @@ import { scrollToId } from "@/utils/format";
 
 const menuOpen = ref(false);
 const isScrolled = ref(false);
+const navEl = ref(null);
+
+function updateNavOffset() {
+  const el = navEl.value;
+  if (!el || typeof window === "undefined" || typeof document === "undefined")
+    return;
+  const height = el.offsetHeight || 0;
+  const root = document.documentElement;
+  // Add a small buffer so sections don't touch the nav
+  root.style.setProperty("--nav-offset", `${height + 8}px`);
+}
 
 function closeMenu() {
   menuOpen.value = false;
@@ -22,9 +33,12 @@ function onScroll() {
 onMounted(() => {
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });
+  updateNavOffset();
+  window.addEventListener("resize", updateNavOffset, { passive: true });
 });
 onUnmounted(() => {
   window.removeEventListener("scroll", onScroll);
+  window.removeEventListener("resize", updateNavOffset);
 });
 
 watch(menuOpen, (open) => {
@@ -33,7 +47,7 @@ watch(menuOpen, (open) => {
 </script>
 
 <template>
-  <nav class="app-nav" :class="{ scrolled: isScrolled }">
+  <nav class="app-nav" :class="{ scrolled: isScrolled }" ref="navEl">
     <div class="nav-container">
       <a href="#" class="nav-logo" @click.prevent="handleNavClick('#hero')">
         <img src="/logo-full.svg" alt="Masjidly" class="nav-logo-img" />
@@ -110,7 +124,7 @@ watch(menuOpen, (open) => {
 .nav-container {
   max-width: var(--container-max);
   margin: 0 auto;
-  padding: clamp(14px, 1.4vw, 22px) var(--section-padding-x);
+  padding: clamp(10px, 1.1vw, 18px) var(--section-padding-x);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -263,7 +277,7 @@ watch(menuOpen, (open) => {
 }
 @media (max-width: 900px) {
   .nav-container {
-    padding: 10px var(--section-padding-x);
+    padding: 8px var(--section-padding-x);
   }
   .nav-links {
     display: none;
@@ -280,12 +294,12 @@ watch(menuOpen, (open) => {
 }
 @media (max-width: 768px) {
   .nav-container {
-    padding: 8px var(--section-padding-x);
+    padding: 6px var(--section-padding-x);
   }
 }
 @media (max-width: 480px) {
   .nav-container {
-    padding: 8px 16px;
+    padding: 6px 14px;
   }
 }
 </style>

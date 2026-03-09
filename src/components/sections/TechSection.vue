@@ -147,12 +147,15 @@ onMounted(() => {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 24px;
-  margin-top: 48px;
+  margin-top: 40px;
 }
 
 .tech-group {
-  padding-top: 20px;
-  border-top: 2px solid var(--teal);
+  padding: 20px 18px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(42, 110, 127, 0.3);
+  box-shadow: 0 14px 40px rgba(17, 43, 50, 0.08);
+  background: transparent;
 }
 
 .tech-group-label {
@@ -269,10 +272,6 @@ onMounted(() => {
   .tech-mobile {
     display: block;
     margin-top: 28px;
-  }
-  .tech-group-mobile {
-    padding-top: 16px;
-    border-top: 2px solid var(--teal);
   }
 }
 

@@ -26,6 +26,10 @@ const { openIndex, toggle } = useFaqAccordion()
           <span class="stat-text">{{ stat.label }}</span>
         </div>
       </div>
+
+      <div data-animate="fade">
+        <p class="faq-heading">Frequently Asked Questions</p>
+      </div>
       <div class="faq-strip" data-animate>
         <div
           v-for="(item, i) in why.faq"
@@ -54,29 +58,28 @@ const { openIndex, toggle } = useFaqAccordion()
 }
 
 .why-grid {
-  display: grid;
-  grid-template-columns: 340px 1fr;
-  gap: 48px;
-  margin-top: 48px;
-  align-items: start;
+  margin-top: 40px;
 }
 
 .stats-strip {
   display: flex;
-  flex-direction: column;
-  gap: 20px;
+  flex-wrap: wrap;
+  gap: 12px 16px;
+  margin-bottom: 12px;
 }
 
 .stat-item {
-  padding-bottom: 20px;
-  border-bottom: 1px solid var(--border);
+  flex: 1 1 calc(25% - 16px);
+  min-width: 140px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(42, 110, 127, 0.24);
+  background: transparent;
 }
-
-.stat-item:last-child { border-bottom: none; padding-bottom: 0; }
 
 .stat-value {
   font-family: 'Raleway', sans-serif;
-  font-size: 36px;
+  font-size: 28px;
   font-weight: 900;
   color: var(--teal);
   line-height: 1;
@@ -85,36 +88,37 @@ const { openIndex, toggle } = useFaqAccordion()
 }
 
 .stat-text {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--muted);
   line-height: 1.5;
 }
 
-/* Mobile: compact 2x2 stats grid */
+/* Mobile: stacked stats */
 @media (max-width: 600px) {
   .stats-strip {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px 20px;
+    flex-direction: column;
+    gap: 10px;
   }
-  .stat-item {
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--border);
-  }
-  .stat-item:nth-child(3),
-  .stat-item:nth-child(4) { border-bottom: none; padding-bottom: 0; }
-  .stat-value { font-size: 26px; margin-bottom: 4px; }
+  .stat-value { font-size: 22px; margin-bottom: 4px; }
   .stat-text { font-size: 11px; line-height: 1.35; }
 }
 
 .faq-strip {
-  border-left: 2px solid var(--border);
-  padding-left: 32px;
+  margin-top: 8px;
+}
+
+.faq-heading {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-top: 20px;
+  margin-bottom: 8px;
 }
 
 .faq-row { border-bottom: 1px solid var(--border); }
-
-.faq-row:last-child { border-bottom: none; }
+.faq-row + .faq-row { border-top: 1px solid var(--border); }
 
 .faq-trigger {
   width: 100%;
@@ -184,8 +188,7 @@ const { openIndex, toggle } = useFaqAccordion()
 }
 
 @media (max-width: 900px) {
-  .why-grid { grid-template-columns: 1fr; }
-  .faq-strip { border-left: none; padding-left: 0; border-top: 2px solid var(--border); padding-top: 32px; }
+  .why-grid { margin-top: 32px; }
 }
 @media (max-width: 600px) {
   .why-section { padding: 48px 0; }
