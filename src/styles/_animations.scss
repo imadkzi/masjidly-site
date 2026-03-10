@@ -1,0 +1,48 @@
+@mixin scroll-animations {
+  /* Scroll-triggered animations */
+  [data-animate] {
+    transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  [data-animate].anim-ready {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  [data-animate].anim-ready.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Variants */
+  [data-animate='fade'].anim-ready,
+  [data-animate='fade'].anim-ready.in {
+    transform: none;
+  }
+
+  [data-animate='fade-left'].anim-ready {
+    transform: translateX(-24px);
+  }
+
+  [data-animate='fade-left'].anim-ready.in {
+    transform: translateX(0);
+  }
+
+  [data-animate='fade-right'].anim-ready {
+    transform: translateX(24px);
+  }
+
+  [data-animate='fade-right'].anim-ready.in {
+    transform: translateX(0);
+  }
+
+  [data-animate='scale'].anim-ready {
+    transform: scale(0.96);
+  }
+
+  [data-animate='scale'].anim-ready.in {
+    transform: scale(1);
+  }
+}
+

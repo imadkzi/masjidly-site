@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import { features } from '@/data/siteContent'
 import AppIcon from '@/components/icons/AppIcon.vue'
+import SectionHeader from '@/components/SectionHeader.vue'
 
 const openFeature = ref(null)
 function toggleFeature(i) {
@@ -14,72 +15,73 @@ const rightFeatures = computed(() => features.items.slice(midpoint.value))
 </script>
 
 <template>
-  <section id="features" class="features-section">
+  <section id="features" class="features">
     <div class="section-container">
-    <header class="section-header" data-animate>
-      <span class="section-tag">{{ features.label }}</span>
-      <h2 class="section-heading">{{ features.title }}</h2>
-      <p class="section-desc">{{ features.description }}</p>
-    </header>
+      <SectionHeader
+        data-animate
+        :label="features.label"
+        :title="features.title"
+        :description="features.description"
+      />
     <!-- Desktop: two-column list (1,4 / 2,5 / 3,6) -->
-    <div class="feature-desktop">
-      <ul class="feature-list">
+    <div class="features__desktop">
+      <ul class="features__list">
         <li
           v-for="(item, i) in leftFeatures"
           :key="`left-${i}`"
-          class="feature-row"
+          class="features__row"
           data-animate
         >
-          <span class="feature-num">{{ String(i + 1).padStart(2, '0') }}</span>
-          <div class="feature-icon-wrap">
+          <span class="features__num">{{ String(i + 1).padStart(2, '0') }}</span>
+          <div class="features__icon">
             <AppIcon :name="item.icon" />
           </div>
-          <div class="feature-text">
-            <h3 class="feature-title">{{ item.title }}</h3>
-            <p class="feature-body">{{ item.body }}</p>
+          <div class="features__text">
+            <h3 class="features__title">{{ item.title }}</h3>
+            <p class="features__body">{{ item.body }}</p>
           </div>
         </li>
       </ul>
-      <ul class="feature-list">
+      <ul class="features__list">
         <li
           v-for="(item, i) in rightFeatures"
           :key="`right-${i}`"
-          class="feature-row"
+          class="features__row"
           data-animate
         >
-          <span class="feature-num">{{
+          <span class="features__num">{{
             String(midpoint + i + 1).padStart(2, '0')
           }}</span>
-          <div class="feature-icon-wrap">
+          <div class="features__icon">
             <AppIcon :name="item.icon" />
           </div>
-          <div class="feature-text">
-            <h3 class="feature-title">{{ item.title }}</h3>
-            <p class="feature-body">{{ item.body }}</p>
+          <div class="features__text">
+            <h3 class="features__title">{{ item.title }}</h3>
+            <p class="features__body">{{ item.body }}</p>
           </div>
         </li>
       </ul>
     </div>
     <!-- Mobile: accordion -->
-    <ul class="feature-list feature-mobile">
+    <ul class="features__list features__mobile">
       <li
         v-for="(item, i) in features.items"
         :key="i"
-        class="feature-accordion"
+        class="features__accordion"
         :class="{ open: openFeature === i }"
         data-animate
       >
-        <button type="button" class="feature-trigger" @click="toggleFeature(i)">
-          <div class="feature-icon-wrap">
+        <button type="button" class="features__trigger" @click="toggleFeature(i)">
+          <div class="features__icon">
             <AppIcon :name="item.icon" />
           </div>
-          <span class="feature-title">{{ item.title }}</span>
-          <span class="feature-chevron">
+          <span class="features__title">{{ item.title }}</span>
+          <span class="features__chevron">
             <AppIcon name="chevron-plus" :size="14" />
           </span>
         </button>
-        <div class="feature-body-wrap">
-          <p class="feature-body">{{ item.body }}</p>
+        <div class="features__body-wrap">
+          <p class="features__body">{{ item.body }}</p>
         </div>
       </li>
     </ul>
@@ -87,58 +89,55 @@ const rightFeatures = computed(() => features.items.slice(midpoint.value))
   </section>
 </template>
 
-<style scoped>
-.features-section {
+<style scoped lang="scss">
+@use '@/styles/mixins' as *;
+
+.features {
   padding: var(--section-padding-y) 0;
   background: var(--cream);
 }
 
-.section-header { margin-bottom: 56px; }
+.features__header {
+  margin-bottom: 56px;
+}
 
 .section-tag {
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--teal);
-  display: block;
-  margin-bottom: 12px;
+  @include section-tag(var(--teal));
 }
 
 .section-heading {
-  font-family: 'Raleway', sans-serif;
-  font-size: clamp(28px, 3.5vw, 44px);
-  font-weight: 900;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  color: var(--ink);
-  margin-bottom: 16px;
+  @include section-heading(var(--ink));
 }
 
 .section-desc {
-  font-size: 16px;
-  line-height: 1.7;
-  color: var(--muted);
-  max-width: 520px;
+  @include section-desc(var(--muted));
 }
 
-.feature-list {
+.features__list {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.feature-desktop {
+.features__desktop {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 20px 32px;
 }
 
-.feature-mobile { display: none; }
+.features__mobile {
+  display: none;
+}
 
-.feature-accordion { border-bottom: 1px solid var(--border); }
-.feature-accordion:last-child { border-bottom: none; }
-.feature-trigger {
+.features__accordion {
+  border-bottom: 1px solid var(--border);
+}
+
+.features__accordion:last-child {
+  border-bottom: none;
+}
+
+.features__trigger {
   width: 100%;
   display: flex;
   align-items: center;
@@ -150,46 +149,60 @@ const rightFeatures = computed(() => features.items.slice(midpoint.value))
   cursor: pointer;
   font: inherit;
 }
-.feature-trigger:hover { color: var(--teal); }
-.feature-accordion .feature-icon-wrap {
+
+.features__trigger:hover {
+  color: var(--teal);
+}
+
+.features__accordion .features__icon {
   width: 40px;
   height: 40px;
   flex-shrink: 0;
 }
-.feature-accordion .feature-title {
+
+.features__accordion .features__title {
   flex: 1;
   margin: 0;
   font-size: 15px;
 }
-.feature-chevron {
+
+.features__chevron {
   color: var(--teal);
   flex-shrink: 0;
   transition: transform 0.25s;
 }
-.feature-accordion.open .feature-chevron { transform: rotate(45deg); }
-.feature-body-wrap {
+
+.features__accordion.open .features__chevron {
+  transform: rotate(45deg);
+}
+
+.features__body-wrap {
   overflow: hidden;
   max-height: 0;
   transition: max-height 0.3s;
 }
-.feature-accordion.open .feature-body-wrap { max-height: 200px; }
-.feature-accordion .feature-body {
+
+.features__accordion.open .features__body-wrap {
+  max-height: 200px;
+}
+
+.features__accordion .features__body {
   padding: 0 0 20px 54px;
   font-size: 14px;
   line-height: 1.6;
 }
 
-.feature-row {
+.features__row {
   display: flex;
   gap: 18px;
   align-items: flex-start;
 }
 
-.feature-row + .feature-row {
+.features__row + .features__row {
   margin-top: 25px;
 }
 
-.feature-num {
+.features__num {
   font-family: 'DM Mono', monospace;
   font-size: 14px;
   font-weight: 500;
@@ -197,18 +210,11 @@ const rightFeatures = computed(() => features.items.slice(midpoint.value))
   opacity: 0.6;
 }
 
-.feature-icon-wrap {
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--teal);
-  background: rgba(42, 110, 127, 0.06);
-  border-radius: 8px;
+.features__icon {
+  @include icon-box(48px, 8px, rgba(42, 110, 127, 0.06));
 }
 
-.feature-title {
+.features__title {
   font-family: 'Raleway', sans-serif;
   font-size: 17px;
   font-weight: 800;
@@ -217,7 +223,7 @@ const rightFeatures = computed(() => features.items.slice(midpoint.value))
   letter-spacing: -0.01em;
 }
 
-.feature-body {
+.features__body {
   font-size: 14px;
   line-height: 1.65;
   color: var(--muted);
@@ -225,14 +231,36 @@ const rightFeatures = computed(() => features.items.slice(midpoint.value))
 }
 
 @media (max-width: 768px) {
-  .features-section { padding: clamp(40px, 5vw, 56px) 0; }
+  .features {
+    padding: clamp(40px, 5vw, 56px) 0;
+  }
 }
+
 @media (max-width: 600px) {
-  .features-section { padding: 48px 0; }
-  .section-header { margin-bottom: 36px; }
-  .feature-desktop { display: none; }
-  .feature-mobile { display: flex; flex-direction: column; }
-  .feature-accordion.open .feature-body-wrap { max-height: 220px; }
-  .feature-accordion .feature-body { padding: 0 0 16px 0; padding-left: 54px; }
+  .features {
+    padding: 48px 0;
+  }
+
+  .features__header {
+    margin-bottom: 36px;
+  }
+
+  .features__desktop {
+    display: none;
+  }
+
+  .features__mobile {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .features__accordion.open .features__body-wrap {
+    max-height: 220px;
+  }
+
+  .features__accordion .features__body {
+    padding: 0 0 16px 0;
+    padding-left: 54px;
+  }
 }
 </style>

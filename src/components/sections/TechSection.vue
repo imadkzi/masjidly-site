@@ -2,6 +2,7 @@
 import { ref, onMounted, onUnmounted } from "vue";
 import { techCategories } from "@/data/techStack";
 import AppIcon from "@/components/icons/AppIcon.vue";
+import SectionHeader from "@/components/SectionHeader.vue";
 
 const activeCat = ref(0);
 let intervalId = null;
@@ -10,7 +11,7 @@ function startInterval() {
   if (intervalId) return;
   intervalId = setInterval(() => {
     activeCat.value = (activeCat.value + 1) % techCategories.length;
-  }, 4000);
+  }, 7000);
 }
 
 function stopInterval() {
@@ -33,48 +34,45 @@ onMounted(() => {
 </script>
 
 <template>
-  <section id="tech" class="tech-section">
+  <section id="tech" class="tech">
     <div class="section-container">
-      <header class="section-header" data-animate="fade-left">
-        <span class="section-tag">Tech Stack</span>
-        <h2 class="section-heading">A stable, well-chosen architecture.</h2>
-        <p class="section-desc">
-          Every layer was selected for longevity and reliability. No
-          experimental frameworks, no lock-in to single vendors — components
-          that do their job well and can be swapped if needed.
-        </p>
-      </header>
+      <SectionHeader
+        data-animate="fade-left"
+        label="Tech Stack"
+        title="A stable, well-chosen architecture."
+        description="Every layer was selected for longevity and reliability. No experimental frameworks, no lock-in to single vendors — components that do their job well and can be swapped if needed."
+      />
       <!-- Desktop: full grid -->
-      <div class="tech-stack tech-desktop">
+      <div class="tech__grid tech__grid--desktop">
         <div
           v-for="(cat, i) in techCategories"
           :key="i"
-          class="tech-group"
+          class="tech__group"
           data-animate
         >
-          <h4 class="tech-group-label">{{ cat.label }}</h4>
-          <dl class="tech-items">
-            <div v-for="(item, j) in cat.items" :key="j" class="tech-row">
-              <div class="tech-row-icon">
+          <h4 class="tech__group-label">{{ cat.label }}</h4>
+          <dl class="tech__items">
+            <div v-for="(item, j) in cat.items" :key="j" class="tech__row">
+              <div class="tech__row-icon">
                 <AppIcon :name="item.icon || 'check'" :size="14" />
               </div>
-              <div class="tech-row-content">
-                <dt class="tech-name">{{ item.name }}</dt>
-                <dd class="tech-desc">{{ item.desc }}</dd>
+              <div class="tech__row-content">
+                <dt class="tech__name">{{ item.name }}</dt>
+                <dd class="tech__item-desc">{{ item.desc }}</dd>
               </div>
             </div>
           </dl>
         </div>
       </div>
       <!-- Mobile: category tabs -->
-      <div class="tech-mobile" data-animate>
-        <div class="tech-tabs" role="tablist">
+      <div class="tech__mobile" data-animate>
+        <div class="tech__tabs" role="tablist">
           <button
             v-for="(cat, i) in techCategories"
             :key="i"
             type="button"
             role="tab"
-            class="tech-tab"
+            class="tech__tab"
             :class="{ active: activeCat === i }"
             :aria-selected="activeCat === i"
             @click="activeCat = i"
@@ -83,22 +81,22 @@ onMounted(() => {
           </button>
         </div>
         <Transition name="tech-slide" mode="out-in">
-          <div :key="activeCat" class="tech-group tech-group-mobile">
-            <h4 class="tech-group-label">
+          <div :key="activeCat" class="tech__group tech__group--mobile">
+            <h4 class="tech__group-label">
               {{ techCategories[activeCat]?.label }}
             </h4>
-            <dl class="tech-items">
+            <dl class="tech__items">
               <div
                 v-for="(item, j) in techCategories[activeCat]?.items"
                 :key="j"
-                class="tech-row"
+                class="tech__row"
               >
-                <div class="tech-row-icon">
+                <div class="tech__row-icon">
                   <AppIcon :name="item.icon || 'check'" :size="14" />
                 </div>
-                <div class="tech-row-content">
-                  <dt class="tech-name">{{ item.name }}</dt>
-                  <dd class="tech-desc">{{ item.desc }}</dd>
+                <div class="tech__row-content">
+                  <dt class="tech__name">{{ item.name }}</dt>
+                  <dd class="tech__item-desc">{{ item.desc }}</dd>
                 </div>
               </div>
             </dl>
@@ -109,56 +107,47 @@ onMounted(() => {
   </section>
 </template>
 
-<style scoped>
-.tech-section {
+<style scoped lang="scss">
+@use '@/styles/mixins' as *;
+
+.tech {
   padding: var(--section-padding-y) 0;
   background: var(--cream);
 }
 
-.section-header {
+.tech__header {
   margin-bottom: 0;
 }
-.section-tag {
-  font-family: "DM Mono", monospace;
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--teal);
-  display: block;
-  margin-bottom: 12px;
-}
-.section-heading {
-  font-family: "Raleway", sans-serif;
-  font-size: clamp(28px, 3.5vw, 44px);
-  font-weight: 900;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  color: var(--ink);
-  margin-bottom: 16px;
-}
-.section-desc {
-  font-size: 16px;
-  line-height: 1.7;
-  color: var(--muted);
-  max-width: 520px;
+
+.tech__tag {
+  @include section-tag(var(--teal));
 }
 
-.tech-stack {
+.tech__heading {
+  @include section-heading(var(--ink));
+}
+
+.tech__desc {
+  @include section-desc(var(--muted));
+}
+
+.tech__grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 24px;
   margin-top: 40px;
 }
 
-.tech-group {
+.tech__group {
   padding: 20px 18px 16px;
-  border-radius: 14px;
-  border: 1px solid rgba(42, 110, 127, 0.3);
-  box-shadow: 0 14px 40px rgba(17, 43, 50, 0.08);
-  background: transparent;
+  @include card-elevated(
+    transparent,
+    rgba(42, 110, 127, 0.3),
+    0 14px 40px rgba(17, 43, 50, 0.08)
+  );
 }
 
-.tech-group-label {
+.tech__group-label {
   font-family: "DM Mono", monospace;
   font-size: 10px;
   letter-spacing: 0.16em;
@@ -167,11 +156,11 @@ onMounted(() => {
   margin: 0 0 20px 0;
 }
 
-.tech-items {
+.tech__items {
   margin: 0;
 }
 
-.tech-row {
+.tech__row {
   display: flex;
   align-items: flex-start;
   gap: 12px;
@@ -179,45 +168,37 @@ onMounted(() => {
   border-bottom: 1px solid rgba(17, 43, 50, 0.06);
 }
 
-.tech-row:last-child {
+.tech__row:last-child {
   border-bottom: none;
 }
 
-.tech-row-icon {
-  flex-shrink: 0;
-  width: 28px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(42, 110, 127, 0.08);
-  border-radius: 6px;
-  color: var(--teal);
+.tech__row-icon {
+  @include icon-box(28px);
 }
 
-.tech-row-content {
+.tech__row-content {
   flex: 1;
   min-width: 0;
 }
 
-.tech-name {
+.tech__name {
   font-size: 14px;
   font-weight: 600;
   color: var(--ink);
   margin: 0 0 2px 0;
 }
 
-.tech-desc {
+.tech__item-desc {
   font-size: 12px;
   color: var(--muted);
   margin: 0;
 }
 
-.tech-mobile {
+.tech__mobile {
   display: none;
 }
 
-.tech-tabs {
+.tech__tabs {
   display: flex;
   flex-wrap: nowrap;
   gap: 6px;
@@ -227,10 +208,10 @@ onMounted(() => {
   padding-bottom: 4px;
   scrollbar-width: none;
 }
-.tech-tabs::-webkit-scrollbar {
+.tech__tabs::-webkit-scrollbar {
   display: none;
 }
-.tech-tab {
+.tech__tab {
   padding: 8px 12px;
   font-family: "DM Mono", monospace;
   font-size: 9px;
@@ -248,28 +229,28 @@ onMounted(() => {
   flex-shrink: 0;
   white-space: nowrap;
 }
-.tech-tab.active {
+.tech__tab.active {
   color: var(--teal);
   background: rgba(42, 110, 127, 0.08);
   border-color: rgba(42, 110, 127, 0.35);
 }
-.tech-tab:hover:not(.active) {
+.tech__tab:hover:not(.active) {
   color: var(--ink);
 }
 
 @media (max-width: 1100px) {
-  .tech-stack {
+  .tech__grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 @media (max-width: 600px) {
-  .tech-section {
+  .tech {
     padding: 48px 0;
   }
-  .tech-desktop {
+  .tech__grid--desktop {
     display: none;
   }
-  .tech-mobile {
+  .tech__mobile {
     display: block;
     margin-top: 28px;
   }

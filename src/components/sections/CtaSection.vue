@@ -16,23 +16,23 @@ function handleSubmit() {
 </script>
 
 <template>
-  <section id="cta" class="cta-section">
+  <section id="cta" class="cta">
     <div class="section-container">
-    <div class="cta-inner" data-animate>
-      <span class="cta-tag">{{ cta.label }}</span>
-      <h2 class="cta-title">{{ cta.title }}</h2>
-      <p class="cta-body">{{ cta.body }}</p>
-      <form class="cta-form" @submit.prevent="handleSubmit">
+    <div class="cta__inner" data-animate>
+      <span class="cta__tag">{{ cta.label }}</span>
+      <h2 class="cta__title">{{ cta.title }}</h2>
+      <p class="cta__body">{{ cta.body }}</p>
+      <form class="cta__form" @submit.prevent="handleSubmit">
         <input
           v-model="email"
           type="email"
           :placeholder="cta.emailPlaceholder"
-          class="cta-input"
+          class="cta__input"
           required
         />
-        <button type="submit" class="cta-btn">{{ buttonText }}</button>
+        <button type="submit" class="cta__button">{{ buttonText }}</button>
       </form>
-      <p class="cta-note">
+      <p class="cta__note">
         {{ cta.note }}
         <a :href="`mailto:${cta.email}`">{{ cta.email }}</a>
       </p>
@@ -41,19 +41,21 @@ function handleSubmit() {
   </section>
 </template>
 
-<style scoped>
-.cta-section {
+<style scoped lang="scss">
+@use '@/styles/mixins' as *;
+
+.cta {
   padding: var(--section-padding-y) 0;
   background: var(--cream);
 }
 
-.cta-inner {
+.cta__inner {
   max-width: 720px;
   margin: 0 auto;
   text-align: center;
 }
 
-.cta-tag {
+.cta__tag {
   font-family: 'DM Mono', monospace;
   font-size: 11px;
   letter-spacing: 0.18em;
@@ -63,7 +65,7 @@ function handleSubmit() {
   margin-bottom: 16px;
 }
 
-.cta-title {
+.cta__title {
   font-family: 'Raleway', sans-serif;
   font-size: clamp(32px, 4vw, 48px);
   font-weight: 900;
@@ -73,14 +75,14 @@ function handleSubmit() {
   margin-bottom: 16px;
 }
 
-.cta-body {
+.cta__body {
   font-size: 16px;
   color: var(--muted);
   line-height: 1.7;
   margin-bottom: 28px;
 }
 
-.cta-form {
+.cta__form {
   display: flex;
   gap: 0;
   border: 1px solid var(--border);
@@ -89,7 +91,7 @@ function handleSubmit() {
   margin-bottom: 16px;
 }
 
-.cta-input {
+.cta__input {
   flex: 1;
   padding: 16px 20px;
   border: none;
@@ -98,10 +100,10 @@ function handleSubmit() {
   background: var(--white);
 }
 
-.cta-input:focus { outline: none; }
+.cta__input:focus { outline: none; }
 
-.cta-btn {
-  padding: 16px 28px;
+.cta__button {
+  @include button-base();
   background: var(--ink);
   color: var(--cream);
   border: none;
@@ -114,22 +116,22 @@ function handleSubmit() {
   transition: background 0.2s;
 }
 
-.cta-btn:hover { background: var(--teal); }
+.cta__button:hover { background: var(--teal); }
 
-.cta-note {
+.cta__note {
   font-size: 13px;
   color: var(--muted);
 }
 
-.cta-note a {
+.cta__note a {
   color: var(--teal);
   text-decoration: none;
   font-weight: 600;
 }
 
 @media (max-width: 600px) {
-  .cta-section { padding: 48px 0; }
-  .cta-form { flex-direction: column; }
-  .cta-btn { width: 100%; }
+  .cta { padding: 48px 0; }
+  .cta__form { flex-direction: column; }
+  .cta__button { width: 100%; }
 }
 </style>

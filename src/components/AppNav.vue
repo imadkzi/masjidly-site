@@ -110,7 +110,9 @@ watch(menuOpen, (open) => {
   </Transition>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+@use '@/styles/tokens' as *;
+@use '@/styles/mixins' as *;
 .app-nav {
   position: fixed;
   top: 0;
@@ -173,6 +175,7 @@ watch(menuOpen, (open) => {
 .nav-links a {
   text-decoration: none;
   color: var(--ink);
+  font-family: $font-sans;
   font-size: 13.5px;
   font-weight: 500;
   opacity: 0.65;
@@ -182,14 +185,9 @@ watch(menuOpen, (open) => {
   opacity: 1;
 }
 .nav-cta {
-  background: var(--ink) !important;
+  @include button-solid($color-ink, $color-cream);
   color: var(--cream) !important;
   opacity: 1 !important;
-  padding: 10px 22px;
-  border-radius: 8px;
-  font-size: 13px !important;
-  font-weight: 600 !important;
-  transition: background 0.2s !important;
 }
 .nav-cta:hover {
   background: var(--teal) !important;

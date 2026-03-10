@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { howItWorks } from '@/data/siteContent'
+import SectionHeader from '@/components/SectionHeader.vue'
 
 const activeStep = ref(0)
 
@@ -9,7 +10,7 @@ let intervalId = null
 onMounted(() => {
   intervalId = window.setInterval(() => {
     activeStep.value = (activeStep.value + 1) % howItWorks.steps.length
-  }, 4000)
+  }, 7000)
 })
 
 onUnmounted(() => {
@@ -23,59 +24,61 @@ const activeStepData = computed(() => howItWorks.steps[activeStep.value])
 </script>
 
 <template>
-  <section id="how" class="how-section">
+  <section id="how" class="how">
     <div class="section-container">
-      <header class="how-header" data-animate>
-        <span class="section-tag light">{{ howItWorks.label }}</span>
-        <h2 class="section-heading light">{{ howItWorks.title }}</h2>
-        <p class="section-desc light">{{ howItWorks.description }}</p>
-      </header>
+      <SectionHeader
+        data-animate
+        :label="howItWorks.label"
+        :title="howItWorks.title"
+        :description="howItWorks.description"
+        tone="light"
+      />
 
-      <div class="how-layout">
+      <div class="how__layout">
         <!-- Desktop: vertical journey timeline -->
-        <ol class="steps-timeline steps-desktop" data-animate="fade-right">
+        <ol class="how__timeline how__timeline--desktop" data-animate="fade-right">
           <li
             v-for="(step, i) in howItWorks.steps"
             :key="i"
-            class="step-row"
+            class="how__step-row"
           >
-            <div class="step-marker-wrap">
-              <span class="step-marker">{{ step.num }}</span>
+            <div class="how__step-marker-wrap">
+              <span class="how__step-marker">{{ step.num }}</span>
               <span
                 v-if="i !== howItWorks.steps.length - 1"
-                class="step-connector"
+                class="how__step-connector"
               ></span>
             </div>
-            <article class="step-card">
-              <h3 class="step-heading">{{ step.title }}</h3>
-              <p class="step-text">{{ step.body }}</p>
+            <article class="how__card">
+              <h3 class="how__card-heading">{{ step.title }}</h3>
+              <p class="how__card-text">{{ step.body }}</p>
             </article>
           </li>
         </ol>
 
         <!-- Mobile: tabbed carousel with cards -->
-        <div class="steps-mobile" data-animate>
-          <div class="step-tabs" role="tablist">
+        <div class="how__mobile" data-animate>
+          <div class="how__tabs" role="tablist">
             <button
               v-for="(step, i) in howItWorks.steps"
               :key="i"
               type="button"
               role="tab"
-              class="step-tab"
+              class="how__tab"
               :class="{ active: activeStep === i }"
               :aria-selected="activeStep === i"
           @click="activeStep = i"
             >
-          <span class="step-tab-dot">{{ step.num }}</span>
+          <span class="how__tab-dot">{{ step.num }}</span>
             </button>
           </div>
           <Transition name="how-step" mode="out-in">
             <article
               :key="activeStep"
-              class="step-card step-card-mobile"
+              class="how__card how__card--mobile"
             >
-              <h3 class="step-heading">{{ activeStepData.title }}</h3>
-              <p class="step-text">{{ activeStepData.body }}</p>
+              <h3 class="how__card-heading">{{ activeStepData.title }}</h3>
+              <p class="how__card-text">{{ activeStepData.body }}</p>
             </article>
           </Transition>
         </div>
@@ -84,71 +87,58 @@ const activeStepData = computed(() => howItWorks.steps[activeStep.value])
   </section>
 </template>
 
-<style scoped>
-.how-section {
+<style scoped lang="scss">
+@use '@/styles/mixins' as *;
+
+.how {
   padding: var(--section-padding-y) 0;
   background:
     var(--ink)
     url("/ink-pattern.svg") center top / cover no-repeat;
 }
 
-.how-header { margin-bottom: 40px; }
+.how__header { margin-bottom: 40px; }
 
-.how-layout {
+.how__layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
 }
 
 .section-tag {
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  display: block;
-  margin-bottom: 12px;
+  @include section-tag(var(--gold));
 }
-.section-tag.light { color: var(--gold); }
 
 .section-heading {
-  font-family: 'Raleway', sans-serif;
-  font-size: clamp(28px, 3.5vw, 44px);
-  font-weight: 900;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  margin-bottom: 16px;
+  @include section-heading(var(--cream));
 }
-.section-heading.light { color: var(--cream); }
 
 .section-desc {
-  font-size: 16px;
-  line-height: 1.7;
-  max-width: 520px;
+  @include section-desc(rgba(245, 240, 232, 0.55));
 }
-.section-desc.light { color: rgba(245, 240, 232, 0.55); }
 
-.steps-timeline {
+.how__timeline {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.step-row {
+.how__step-row {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   column-gap: 22px;
 }
 
-.step-row + .step-row {
+.how__step-row + .how__step-row {
   margin-top: 22px;
 }
 
-.step-marker-wrap {
+.how__step-marker-wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.step-marker {
+.how__step-marker {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -163,14 +153,14 @@ const activeStepData = computed(() => howItWorks.steps[activeStep.value])
   box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.25);
 }
 
-.step-connector {
+.how__step-connector {
   flex: 1;
   width: 2px;
   margin-top: 10px;
   background: linear-gradient(to bottom, rgba(201, 168, 76, 0.5), transparent);
 }
 
-.step-card {
+.how__card {
   padding: 18px 18px 16px;
   border-radius: 14px;
   border: 1px solid rgba(42, 110, 127, 0.35);
@@ -178,7 +168,7 @@ const activeStepData = computed(() => howItWorks.steps[activeStep.value])
   background: rgba(10, 42, 52, 0.95);
 }
 
-.step-heading {
+.how__card-heading {
   font-family: 'Raleway', sans-serif;
   font-size: 16px;
   font-weight: 800;
@@ -187,21 +177,21 @@ const activeStepData = computed(() => howItWorks.steps[activeStep.value])
   line-height: 1.25;
 }
 
-.step-text {
+.how__card-text {
   font-size: 14px;
   line-height: 1.65;
   color: rgba(245, 240, 232, 0.5);
   margin: 0;
 }
 
-.steps-mobile { display: none; }
+.how__mobile { display: none; }
 
-.step-tabs {
+.how__tabs {
   display: flex;
   gap: 12px;
   margin-bottom: 20px;
 }
-.step-tab {
+.how__tab {
   width: 34px;
   height: 34px;
   font-family: 'DM Mono', monospace;
@@ -218,7 +208,7 @@ const activeStepData = computed(() => howItWorks.steps[activeStep.value])
     box-shadow 0.2s,
     opacity 0.2s;
 }
-.step-tab.active {
+.how__tab.active {
   color: var(--ink);
   background: var(--gold);
   border-color: transparent;
@@ -227,11 +217,11 @@ const activeStepData = computed(() => howItWorks.steps[activeStep.value])
     0 0 0 3px rgba(201, 168, 76, 0.6),
     0 10px 24px rgba(0, 0, 0, 0.6);
 }
-.step-tab:hover:not(.active) {
+.how__tab:hover:not(.active) {
   opacity: 0.85;
 }
 
-.step-tab-dot {
+.how__tab-dot {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -239,7 +229,7 @@ const activeStepData = computed(() => howItWorks.steps[activeStep.value])
   height: 100%;
 }
 
-.step-card-mobile {
+.how__card--mobile {
   margin-top: 10px;
 }
 
@@ -260,12 +250,12 @@ const activeStepData = computed(() => howItWorks.steps[activeStep.value])
 }
 
 @media (max-width: 768px) {
-  .how-section { padding: clamp(40px, 5vw, 56px) 0; }
+  .how { padding: clamp(40px, 5vw, 56px) 0; }
 }
 @media (max-width: 600px) {
-  .how-section { padding: 48px 0; }
-  .how-header { margin-bottom: 28px; }
-  .steps-desktop { display: none; }
-  .steps-mobile { display: block; }
+  .how { padding: 48px 0; }
+  .how__header { margin-bottom: 28px; }
+  .how__timeline--desktop { display: none; }
+  .how__mobile { display: block; }
 }
 </style>

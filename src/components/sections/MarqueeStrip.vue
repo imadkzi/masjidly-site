@@ -15,7 +15,9 @@ import { marqueeItems } from '@/data/siteContent'
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+@use '@/styles/tokens' as *;
+
 .marquee-wrap {
   background: var(--ink);
   padding: clamp(12px, 1.2vw, 20px) 0;
@@ -32,7 +34,7 @@ import { marqueeItems } from '@/data/siteContent'
 }
 
 .marquee-item {
-  font-family: 'DM Mono', monospace;
+  font-family: $font-mono;
   font-size: 11.5px;
   letter-spacing: 0.15em;
   text-transform: uppercase;

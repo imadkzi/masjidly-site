@@ -1,73 +1,90 @@
 <script setup>
 import { pricing } from '@/data/siteContent'
 import { scrollToId } from '@/utils/format'
+import SectionHeader from '@/components/SectionHeader.vue'
 </script>
 
 <template>
-  <section id="pricing" class="pricing-section">
+  <section id="pricing" class="pricing">
     <div class="section-container">
-    <div data-animate>
-      <div class="section-label light">{{ pricing.label }}</div>
-      <h2 class="section-title">{{ pricing.title }}</h2>
-      <p class="pricing-sub">{{ pricing.subtitle }}</p>
-    </div>
-    <div class="pricing-grid">
+      <SectionHeader
+        class="pricing__header"
+        data-animate
+        :label="pricing.label"
+        :title="pricing.title"
+        :description="pricing.subtitle"
+        tone="light"
+      />
+    <div class="pricing__grid">
       <div
         v-for="(plan, i) in pricing.plans"
         :key="i"
-        class="price-card"
+        class="pricing__card"
         :class="{
-          featured: plan.featured,
-          hosted: plan.tier === 'Hosted',
-          'self-hosted': plan.tier === 'Self-Hosted',
+          'pricing__card--featured': plan.featured,
+          'pricing__card--hosted': plan.tier === 'Hosted',
+          'pricing__card--self-hosted': plan.tier === 'Self-Hosted',
         }"
         data-animate
       >
-        <div class="price-tier-row">
-          <span class="price-tier">{{ plan.tier }}</span>
-          <span v-if="plan.featured" class="price-badge">Recommended</span>
+        <div class="pricing__tier-row">
+          <span class="pricing__tier">{{ plan.tier }}</span>
+          <span v-if="plan.featured" class="pricing__badge">Recommended</span>
         </div>
-        <div class="price-name">{{ plan.name }}</div>
+        <div class="pricing__name">{{ plan.name }}</div>
         <div>
-          <div class="price-amount-label">Setup fee</div>
-          <div class="price-amount">{{ plan.setupFee }}</div>
+          <div class="pricing__amount-label">Setup fee</div>
+          <div class="pricing__amount">{{ plan.setupFee }}</div>
         </div>
-        <div class="price-divider"></div>
+        <div class="pricing__divider"></div>
         <div>
-          <div class="price-monthly-label">{{ plan.monthlyLabel }}</div>
-          <div class="price-monthly-val">
+          <div class="pricing__monthly-label">{{ plan.monthlyLabel }}</div>
+          <div class="pricing__monthly-value">
             {{ plan.monthly }} <span>/ month</span>
           </div>
         </div>
-        <ul class="price-list">
-          <li v-for="(h, j) in plan.highlights" :key="`h-${j}`" class="hi">
+        <ul class="pricing__list">
+          <li
+            v-for="(h, j) in plan.highlights"
+            :key="`h-${j}`"
+            class="pricing__list-item pricing__list-item--highlight"
+          >
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <polyline points="20 6 9 17 4 12"/>
             </svg>
             {{ h }}
           </li>
-          <li v-for="(f, j) in plan.features" :key="`f-${j}`">
+          <li
+            v-for="(f, j) in plan.features"
+            :key="`f-${j}`"
+            class="pricing__list-item"
+          >
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <polyline points="20 6 9 17 4 12"/>
             </svg>
             {{ f }}
           </li>
         </ul>
-        <a href="#cta" class="price-btn" @click.prevent="scrollToId('cta')">Request Setup</a>
+        <a href="#cta" class="pricing__button" @click.prevent="scrollToId('cta')">Request Setup</a>
       </div>
     </div>
-    <div class="player-banner" data-animate="scale">
+    <div class="pricing__player pricing__player--disabled" data-animate="scale">
       <div>
-        <div class="player-tag">{{ pricing.player.tag }}</div>
-        <div class="player-title">{{ pricing.player.title }}</div>
-        <p class="player-desc">{{ pricing.player.description }}</p>
+        <div class="pricing__player-tag">{{ pricing.player.tag }}</div>
+        <div class="pricing__player-title">{{ pricing.player.title }}</div>
+        <p class="pricing__player-desc">{{ pricing.player.description }}</p>
+        <p class="pricing__player-coming">Coming soon</p>
       </div>
       <div>
-        <div class="player-price-num">{{ pricing.player.price }}</div>
-        <div class="player-price-sub">{{ pricing.player.priceLabel }}</div>
-        <div class="player-price-opt">{{ pricing.player.priceNote }}</div>
-        <a href="#cta" class="price-btn player-cta" @click.prevent="scrollToId('cta')">
-          {{ pricing.player.cta }}
+        <div class="pricing__player-price">{{ pricing.player.price }}</div>
+        <div class="pricing__player-price-sub">{{ pricing.player.priceLabel }}</div>
+        <div class="pricing__player-price-note">{{ pricing.player.priceNote }}</div>
+        <a
+          href="#"
+          class="pricing__button pricing__button--player"
+          aria-disabled="true"
+        >
+          Coming soon
         </a>
       </div>
     </div>
@@ -75,8 +92,10 @@ import { scrollToId } from '@/utils/format'
   </section>
 </template>
 
-<style scoped>
-.pricing-section {
+<style scoped lang="scss">
+@use '@/styles/mixins' as *;
+
+.pricing {
   background:
     var(--ink)
     url("/ink-pattern.svg") center top / cover no-repeat;
@@ -85,13 +104,13 @@ import { scrollToId } from '@/utils/format'
   overflow: hidden;
 }
 
-.pricing-section .section-title { color: var(--cream); }
+.pricing .section-title { color: var(--cream); }
 
 .section-label.light { color: var(--gold); }
 
 .section-label.light::before { background: var(--gold); }
 
-.pricing-sub {
+.pricing__subtitle {
   color: rgba(245, 240, 232, 0.48);
   font-size: 15.5px;
   max-width: 460px;
@@ -100,7 +119,7 @@ import { scrollToId } from '@/utils/format'
   line-height: 1.65;
 }
 
-.pricing-grid {
+.pricing__grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
@@ -109,78 +128,79 @@ import { scrollToId } from '@/utils/format'
   z-index: 1;
 }
 
-.price-card {
-  background: rgba(245, 240, 232, 0.08);
-  border: 1px solid rgba(245, 240, 232, 0.3);
+.pricing__card {
   padding: 24px 20px;
+  @include card-elevated(
+    rgba(245, 240, 232, 0.08),
+    rgba(245, 240, 232, 0.3),
+    0 18px 48px rgba(0, 0, 0, 0.5)
+  );
   display: flex;
   flex-direction: column;
   gap: 14px;
   transition: border-color 0.2s, background 0.2s;
-  border-radius: 14px;
-  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.5);
 }
 
 /* Staggered scroll-in animation for pricing cards */
-.pricing-grid .price-card[data-animate] {
+.pricing__grid .pricing__card[data-animate] {
   transition-delay: 0s;
 }
-.pricing-grid .price-card[data-animate]:nth-child(2) {
+.pricing__grid .pricing__card[data-animate]:nth-child(2) {
   transition-delay: 0.05s;
 }
-.pricing-grid .price-card[data-animate]:nth-child(3) {
+.pricing__grid .pricing__card[data-animate]:nth-child(3) {
   transition-delay: 0.1s;
 }
-.pricing-grid .price-card[data-animate]:nth-child(4) {
+.pricing__grid .pricing__card[data-animate]:nth-child(4) {
   transition-delay: 0.15s;
 }
 
 /* Stronger scroll motion for pricing cards */
-.pricing-grid .price-card[data-animate].anim-ready {
+.pricing__grid .pricing__card[data-animate].anim-ready {
   opacity: 0;
   transform: translateY(26px) scale(0.96);
 }
-.pricing-grid .price-card[data-animate].anim-ready.in {
+.pricing__grid .pricing__card[data-animate].anim-ready.in {
   opacity: 1;
   transform: translateY(0) scale(1);
 }
 
-.price-card:hover {
+.pricing__card:hover {
   background: rgba(245, 240, 232, 0.14);
   border-color: rgba(245, 240, 232, 0.45);
 }
 
-.price-card.hosted:not(.featured) {
+.pricing__card--hosted:not(.pricing__card--featured) {
   border-left-color: rgba(42, 110, 127, 0.5);
 }
-.price-card.hosted:not(.featured):hover {
+.pricing__card--hosted:not(.pricing__card--featured):hover {
   border-left-color: var(--teal);
 }
 
-.price-card.self-hosted:not(.featured) {
+.pricing__card--self-hosted:not(.pricing__card--featured) {
   border-left-color: rgba(245, 240, 232, 0.25);
 }
-.price-card.self-hosted:not(.featured):hover {
+.pricing__card--self-hosted:not(.pricing__card--featured):hover {
   border-left-color: rgba(245, 240, 232, 0.4);
 }
 
-.price-card.featured {
+.pricing__card--featured {
   border-color: rgba(201, 168, 76, 0.75);
   background: rgba(201, 168, 76, 0.22);
 }
-.price-card.featured:hover {
+.pricing__card--featured:hover {
   background: rgba(201, 168, 76, 0.3);
   border-color: rgba(201, 168, 76, 0.9);
 }
 
-.price-tier-row {
+.pricing__tier-row {
   display: flex;
   align-items: center;
   gap: 10px;
   flex-wrap: wrap;
 }
 
-.price-tier {
+.pricing__tier {
   font-family: 'DM Mono', monospace;
   font-size: 9px;
   letter-spacing: 0.22em;
@@ -189,7 +209,7 @@ import { scrollToId } from '@/utils/format'
   opacity: 0.6;
 }
 
-.price-badge {
+.pricing__badge {
   font-family: 'DM Mono', monospace;
   font-size: 8px;
   letter-spacing: 0.12em;
@@ -200,7 +220,7 @@ import { scrollToId } from '@/utils/format'
   border-radius: 4px;
 }
 
-.price-name {
+.pricing__name {
   font-family: 'Raleway', sans-serif;
   font-size: 15.5px;
   font-weight: 800;
@@ -209,7 +229,7 @@ import { scrollToId } from '@/utils/format'
   letter-spacing: -0.01em;
 }
 
-.price-amount {
+.pricing__amount {
   font-family: 'Raleway', sans-serif;
   font-size: 30px;
   font-weight: 900;
@@ -218,7 +238,7 @@ import { scrollToId } from '@/utils/format'
   line-height: 1;
 }
 
-.price-amount-label {
+.pricing__amount-label {
   font-size: 9.5px;
   color: rgba(245, 240, 232, 0.3);
   letter-spacing: 0.08em;
@@ -226,26 +246,26 @@ import { scrollToId } from '@/utils/format'
   margin-bottom: 3px;
 }
 
-.price-divider {
+.pricing__divider {
   height: 1px;
   background: rgba(245, 240, 232, 0.07);
 }
 
-.price-monthly-val {
+.pricing__monthly-value {
   font-family: 'Raleway', sans-serif;
   font-size: 17px;
   font-weight: 800;
   color: var(--gold-light);
 }
 
-.price-monthly-val span {
+.pricing__monthly-value span {
   font-family: 'DM Sans', sans-serif;
   font-size: 11px;
   font-weight: 400;
   color: rgba(245, 240, 232, 0.3);
 }
 
-.price-monthly-label {
+.pricing__monthly-label {
   font-size: 9.5px;
   color: rgba(245, 240, 232, 0.3);
   letter-spacing: 0.08em;
@@ -253,7 +273,7 @@ import { scrollToId } from '@/utils/format'
   margin-bottom: 3px;
 }
 
-.price-list {
+.pricing__list {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -263,7 +283,7 @@ import { scrollToId } from '@/utils/format'
   gap: 7px;
 }
 
-.price-list li {
+.pricing__list-item {
   font-size: 12px;
   color: rgba(245, 240, 232, 0.45);
   display: flex;
@@ -272,22 +292,22 @@ import { scrollToId } from '@/utils/format'
   line-height: 1.4;
 }
 
-.price-list li.hi {
+.pricing__list-item--highlight {
   color: rgba(245, 240, 232, 0.8);
 }
 
-.price-list li svg {
+.pricing__list-item svg {
   flex-shrink: 0;
   color: var(--gold);
   opacity: 0.55;
   margin-top: 2px;
 }
 
-.price-list li.hi svg {
+.pricing__list-item--highlight svg {
   opacity: 1;
 }
 
-.price-btn {
+.pricing__button {
   display: block;
   text-align: center;
   padding: 10px;
@@ -304,19 +324,19 @@ import { scrollToId } from '@/utils/format'
   transition: all 0.2s;
 }
 
-.price-btn:hover {
+.pricing__button:hover {
   background: var(--gold);
   border-color: var(--gold);
   color: var(--ink);
 }
 
-.price-card.featured .price-btn {
+.pricing__card--featured .pricing__button {
   background: var(--gold);
   border-color: var(--gold);
   color: var(--ink);
 }
 
-.player-banner {
+.pricing__player {
   background: rgba(201, 168, 76, 0.18);
   border: 1px solid rgba(201, 168, 76, 0.5);
   border-radius: 14px;
@@ -330,7 +350,7 @@ import { scrollToId } from '@/utils/format'
   box-shadow: 0 22px 60px rgba(0, 0, 0, 0.55);
 }
 
-.player-tag {
+.pricing__player-tag {
   font-family: 'DM Mono', monospace;
   font-size: 9.5px;
   letter-spacing: 0.2em;
@@ -339,7 +359,7 @@ import { scrollToId } from '@/utils/format'
   margin-bottom: 6px;
 }
 
-.player-title {
+.pricing__player-title {
   font-family: 'Raleway', sans-serif;
   font-size: 22px;
   font-weight: 900;
@@ -348,7 +368,7 @@ import { scrollToId } from '@/utils/format'
   letter-spacing: -0.02em;
 }
 
-.player-desc {
+.pricing__player-desc {
   font-size: 13.5px;
   color: rgba(245, 240, 232, 0.46);
   line-height: 1.65;
@@ -356,7 +376,16 @@ import { scrollToId } from '@/utils/format'
   margin: 0;
 }
 
-.player-price-num {
+.pricing__player-coming {
+  margin-top: 6px;
+  font-size: 12px;
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.7);
+}
+
+.pricing__player-price {
   font-family: 'Raleway', sans-serif;
   font-size: 42px;
   font-weight: 900;
@@ -366,7 +395,7 @@ import { scrollToId } from '@/utils/format'
   text-align: right;
 }
 
-.player-price-sub {
+.pricing__player-price-sub {
   font-family: 'DM Mono', monospace;
   font-size: 9.5px;
   color: rgba(245, 240, 232, 0.28);
@@ -375,44 +404,79 @@ import { scrollToId } from '@/utils/format'
   margin-top: 4px;
 }
 
-.player-price-opt {
+.pricing__player-price-note {
   font-size: 12.5px;
   color: rgba(245, 240, 232, 0.45);
   text-align: right;
   margin-top: 6px;
 }
 
-.player-cta {
+.pricing__button--player {
   margin-top: 14px;
   background: var(--gold);
   border-color: var(--gold);
   color: var(--ink);
 }
 
+.pricing__player--disabled {
+  background: rgba(17, 43, 50, 0.22);
+  border-color: rgba(245, 240, 232, 0.35);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.3);
+  opacity: 0.82;
+}
+
+.pricing__player--disabled .pricing__player-tag,
+.pricing__player--disabled .pricing__player-coming {
+  color: rgba(245, 240, 232, 0.7);
+}
+
+.pricing__player--disabled .pricing__player-title {
+  color: rgba(245, 240, 232, 0.9);
+}
+
+.pricing__player--disabled .pricing__player-price {
+  color: rgba(245, 240, 232, 0.75);
+}
+
+.pricing__player--disabled .pricing__button--player {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 @media (max-width: 1100px) {
-  .pricing-grid {
+  .pricing__grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 900px) {
-  .player-banner {
+  .pricing__player {
     grid-template-columns: 1fr;
   }
-  .player-price-num,
-  .player-price-sub,
-  .player-price-opt {
+  .pricing__player-price,
+  .pricing__player-price-sub,
+  .pricing__player-price-note {
     text-align: left;
   }
 }
 @media (max-width: 768px) {
-  .pricing-section { padding: clamp(40px, 5vw, 56px) 0; }
+  .pricing {
+    padding: clamp(40px, 5vw, 56px) 0;
+  }
 }
 @media (max-width: 600px) {
-  .pricing-section { padding: 48px 0; }
-  .pricing-grid { grid-template-columns: 1fr; }
-  .player-banner { padding: 24px 20px; gap: 24px; }
-  .player-title { font-size: 18px; }
-  .player-price-num { font-size: 32px; }
+  .pricing {
+    padding: 48px 0;
+    /* On small screens the section is shorter, so keep the SVG pattern tile size consistent
+       with other blue sections instead of letting `cover` zoom it in. */
+    background-size: 720px auto;
+    background-repeat: repeat;
+    background-position: center top;
+  }
+  .pricing__grid { grid-template-columns: 1fr; }
+  .pricing__player { padding: 24px 20px; gap: 24px; }
+  .pricing__player-title { font-size: 18px; }
+  .pricing__player-price { font-size: 32px; }
 }
 </style>

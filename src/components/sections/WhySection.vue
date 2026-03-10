@@ -2,48 +2,50 @@
 import { why } from '@/data/siteContent'
 import { useFaqAccordion } from '@/composables/useFaqAccordion'
 import AppIcon from '@/components/icons/AppIcon.vue'
+import SectionHeader from '@/components/SectionHeader.vue'
 
 const { openIndex, toggle } = useFaqAccordion()
 </script>
 
 <template>
-  <section id="why" class="why-section">
+  <section id="why" class="why">
     <div class="section-container">
-    <header class="section-header" data-animate>
-      <span class="section-tag">{{ why.label }}</span>
-      <h2 class="section-heading">{{ why.title }}</h2>
-      <p class="section-desc">{{ why.description }}</p>
-    </header>
-    <div class="why-grid">
-      <div class="stats-strip">
+      <SectionHeader
+        data-animate
+        :label="why.label"
+        :title="why.title"
+        :description="why.description"
+      />
+    <div class="why__grid">
+      <div class="why__stats">
         <div
           v-for="(stat, i) in why.stats"
           :key="i"
-          class="stat-item"
+          class="why__stat"
           data-animate
         >
-          <span class="stat-value">{{ stat.value }}</span>
-          <span class="stat-text">{{ stat.label }}</span>
+          <span class="why__stat-value">{{ stat.value }}</span>
+          <span class="why__stat-text">{{ stat.label }}</span>
         </div>
       </div>
 
       <div data-animate="fade">
-        <p class="faq-heading">Frequently Asked Questions</p>
+        <p class="why__faq-heading">Frequently Asked Questions</p>
       </div>
-      <div class="faq-strip" data-animate>
+      <div class="why__faq" data-animate>
         <div
           v-for="(item, i) in why.faq"
           :key="i"
-          class="faq-row"
+          class="why__faq-row"
           :class="{ open: openIndex === i }"
         >
-          <button type="button" class="faq-trigger" @click="toggle(i)">
+          <button type="button" class="why__faq-trigger" @click="toggle(i)">
             {{ item.q }}
-            <span class="faq-icon">
+            <span class="why__faq-icon">
               <AppIcon name="chevron-plus" :size="14" />
             </span>
           </button>
-          <div class="faq-answer">{{ item.a }}</div>
+          <div class="why__faq-answer">{{ item.a }}</div>
         </div>
       </div>
     </div>
@@ -51,33 +53,35 @@ const { openIndex, toggle } = useFaqAccordion()
   </section>
 </template>
 
-<style scoped>
-.why-section {
+<style scoped lang="scss">
+@use '@/styles/mixins' as *;
+
+.why {
   padding: var(--section-padding-y) 0;
   background: var(--cream-dark);
 }
 
-.why-grid {
+.why__grid {
   margin-top: 40px;
 }
 
-.stats-strip {
+.why__stats {
   display: flex;
   flex-wrap: wrap;
   gap: 12px 16px;
   margin-bottom: 12px;
 }
 
-.stat-item {
+.why__stat {
   flex: 1 1 calc(25% - 16px);
   min-width: 140px;
   padding: 10px 12px;
   border-radius: 14px;
   border: 1px solid rgba(42, 110, 127, 0.24);
-  background: transparent;
+  background: var(--cream);
 }
 
-.stat-value {
+.why__stat-value {
   font-family: 'Raleway', sans-serif;
   font-size: 28px;
   font-weight: 900;
@@ -87,7 +91,7 @@ const { openIndex, toggle } = useFaqAccordion()
   margin-bottom: 6px;
 }
 
-.stat-text {
+.why__stat-text {
   font-size: 14px;
   color: var(--muted);
   line-height: 1.5;
@@ -95,19 +99,27 @@ const { openIndex, toggle } = useFaqAccordion()
 
 /* Mobile: stacked stats */
 @media (max-width: 600px) {
-  .stats-strip {
+  .why__stats {
     flex-direction: column;
     gap: 10px;
   }
-  .stat-value { font-size: 22px; margin-bottom: 4px; }
-  .stat-text { font-size: 11px; line-height: 1.35; }
+
+  .why__stat-value {
+    font-size: 22px;
+    margin-bottom: 4px;
+  }
+
+  .why__stat-text {
+    font-size: 11px;
+    line-height: 1.35;
+  }
 }
 
-.faq-strip {
+.why__faq {
   margin-top: 8px;
 }
 
-.faq-heading {
+.why__faq-heading {
   font-family: 'DM Mono', monospace;
   font-size: 11px;
   letter-spacing: 0.18em;
@@ -117,10 +129,15 @@ const { openIndex, toggle } = useFaqAccordion()
   margin-bottom: 8px;
 }
 
-.faq-row { border-bottom: 1px solid var(--border); }
-.faq-row + .faq-row { border-top: 1px solid var(--border); }
+.why__faq-row {
+  border-bottom: 1px solid var(--border);
+}
 
-.faq-trigger {
+.why__faq-row + .why__faq-row {
+  border-top: 1px solid var(--border);
+}
+
+.why__faq-trigger {
   width: 100%;
   padding: 20px 0;
   text-align: left;
@@ -136,17 +153,21 @@ const { openIndex, toggle } = useFaqAccordion()
   gap: 16px;
 }
 
-.faq-trigger:hover { color: var(--teal); }
+.why__faq-trigger:hover {
+  color: var(--teal);
+}
 
-.faq-icon {
+.why__faq-icon {
   color: var(--teal);
   flex-shrink: 0;
   transition: transform 0.25s;
 }
 
-.faq-row.open .faq-icon { transform: rotate(45deg); }
+.why__faq-row.open .why__faq-icon {
+  transform: rotate(45deg);
+}
 
-.faq-answer {
+.why__faq-answer {
   font-size: 14px;
   color: var(--muted);
   line-height: 1.65;
@@ -156,45 +177,55 @@ const { openIndex, toggle } = useFaqAccordion()
   transition: max-height 0.3s, padding 0.3s;
 }
 
-.faq-row.open .faq-answer {
+.why__faq-row.open .why__faq-answer {
   max-height: 200px;
   padding: 0 0 20px 0;
 }
 
-.section-header { margin-bottom: 0; }
+.why__header {
+  margin-bottom: 0;
+}
+
 .section-tag {
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--teal);
-  display: block;
-  margin-bottom: 12px;
+  @include section-tag(var(--teal));
 }
+
 .section-heading {
-  font-family: 'Raleway', sans-serif;
-  font-size: clamp(28px, 3.5vw, 44px);
-  font-weight: 900;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  color: var(--ink);
-  margin-bottom: 16px;
+  @include section-heading(var(--ink));
 }
+
 .section-desc {
-  font-size: 16px;
-  line-height: 1.7;
-  color: var(--muted);
-  max-width: 520px;
+  @include section-desc(var(--muted));
 }
 
 @media (max-width: 900px) {
-  .why-grid { margin-top: 32px; }
+  .why__grid {
+    margin-top: 32px;
+  }
 }
+
 @media (max-width: 600px) {
-  .why-section { padding: 48px 0; }
-  .why-grid { margin-top: 28px; gap: 24px; }
-  .faq-strip { padding-top: 24px; }
-  .faq-trigger { padding: 14px 0; font-size: 13px; }
-  .faq-row.open .faq-answer { max-height: 250px; padding: 0 0 14px 0; }
+  .why {
+    padding: 48px 0;
+  }
+
+  .why__grid {
+    margin-top: 28px;
+    gap: 24px;
+  }
+
+  .why__faq {
+    padding-top: 24px;
+  }
+
+  .why__faq-trigger {
+    padding: 14px 0;
+    font-size: 13px;
+  }
+
+  .why__faq-row.open .why__faq-answer {
+    max-height: 250px;
+    padding: 0 0 14px 0;
+  }
 }
 </style>

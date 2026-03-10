@@ -7,37 +7,37 @@ const heroScreenPlaceholder =
 </script>
 
 <template>
-  <section id="hero" class="hero-section">
-    <div class="section-container hero-container">
-      <div class="hero-layout">
-        <div class="hero-text" data-animate>
-          <span class="hero-tag">{{ hero.eyebrow }}</span>
-          <h1 class="hero-title">
+  <section id="hero" class="hero">
+    <div class="section-container hero__container">
+      <div class="hero__layout">
+        <div class="hero__text" data-animate>
+          <span class="hero__tag">{{ hero.eyebrow }}</span>
+          <h1 class="hero__title">
             {{ hero.title }} <em>{{ hero.titleEmphasis }}</em>
           </h1>
-          <p class="hero-desc">{{ hero.body }}</p>
-          <div class="hero-btns">
+          <p class="hero__desc">{{ hero.body }}</p>
+          <div class="hero__buttons">
             <a
               :href="hero.primaryCtaHref"
-              class="hero-btn hero-btn-solid"
+              class="hero__button hero__button--primary"
               @click.prevent="scrollToId('pricing')"
               >{{ hero.primaryCta }}</a
             >
             <a
               :href="hero.secondaryCtaHref"
-              class="hero-btn hero-btn-outline"
+              class="hero__button hero__button--secondary"
               @click.prevent="scrollToId('features')"
               >{{ hero.secondaryCta }}</a
             >
           </div>
         </div>
-        <div class="hero-visual" data-animate="fade-right">
-          <div class="hero-screen-frame" aria-hidden="true">
-            <div class="hero-screen-bezel">
+        <div class="hero__visual" data-animate="fade-right">
+          <div class="hero__screen-frame" aria-hidden="true">
+            <div class="hero__screen-bezel">
               <img
                 :src="hero.heroScreen"
                 alt="Masjidly prayer display on TV"
-                class="hero-screen-img"
+                class="hero__screen-image"
                 @error="(e) => (e.target.src = heroScreenPlaceholder)"
               />
             </div>
@@ -48,8 +48,10 @@ const heroScreenPlaceholder =
   </section>
 </template>
 
-<style scoped>
-.hero-section {
+<style scoped lang="scss">
+@use '@/styles/mixins' as *;
+
+.hero {
   min-height: 85dvh;
   display: flex;
   align-items: center;
@@ -62,13 +64,13 @@ const heroScreenPlaceholder =
   position: relative;
   overflow: hidden;
 }
-.hero-container {
+.hero__container {
   width: 100%;
   position: relative;
   z-index: 1;
 }
 
-.hero-layout {
+.hero__layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 80px;
@@ -78,7 +80,7 @@ const heroScreenPlaceholder =
   width: 100%;
 }
 
-.hero-tag {
+.hero__tag {
   font-family: "DM Mono", monospace;
   font-size: 11px;
   letter-spacing: 0.2em;
@@ -89,7 +91,7 @@ const heroScreenPlaceholder =
   margin-bottom: 20px;
 }
 
-.hero-title {
+.hero__title {
   font-family: "Raleway", sans-serif;
   font-size: clamp(38px, 4.5vw, 56px);
   font-weight: 900;
@@ -99,12 +101,12 @@ const heroScreenPlaceholder =
   margin-bottom: 24px;
 }
 
-.hero-title em {
+.hero__title em {
   font-style: normal;
   color: var(--gold-light);
 }
 
-.hero-desc {
+.hero__desc {
   font-size: 17px;
   line-height: 1.75;
   color: rgba(245, 240, 232, 0.65);
@@ -112,43 +114,38 @@ const heroScreenPlaceholder =
   margin-bottom: 32px;
 }
 
-.hero-btns {
+.hero__buttons {
   display: flex;
   gap: 16px;
   flex-wrap: wrap;
 }
 
-.hero-btn {
-  padding: 14px 28px;
-  font-size: 14px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.2s;
-  border-radius: 6px;
+.hero__button {
+  @include button-base();
 }
 
-.hero-btn-solid {
+.hero__button--primary {
   background: var(--gold);
   color: var(--ink);
   border: none;
 }
 
-.hero-btn-solid:hover {
+.hero__button--primary:hover {
   background: var(--gold-light);
 }
 
-.hero-btn-outline {
+.hero__button--secondary {
   background: transparent;
   color: var(--cream);
   border: 2px solid rgba(245, 240, 232, 0.35);
 }
 
-.hero-btn-outline:hover {
+.hero__button--secondary:hover {
   border-color: var(--cream);
   color: var(--cream);
 }
 
-.hero-visual {
+.hero__visual {
   position: relative;
   min-height: 320px;
   display: flex;
@@ -156,11 +153,11 @@ const heroScreenPlaceholder =
   justify-content: center;
 }
 
-.hero-screen-frame {
+.hero__screen-frame {
   max-width: 100%;
 }
 
-.hero-screen-bezel {
+.hero__screen-bezel {
   border-radius: 12px;
   overflow: hidden;
   border: 8px solid rgba(17, 43, 50, 0.9);
@@ -170,51 +167,50 @@ const heroScreenPlaceholder =
   background: #1a2830;
 }
 
-.hero-screen-img {
+.hero__screen-image {
   display: block;
   width: 100%;
-  max-width: 720px;
   height: auto;
   aspect-ratio: 16 / 9;
   object-fit: cover;
 }
 
 @media (max-width: 900px) {
-  .hero-section {
+  .hero {
     min-height: 70dvh;
   }
-  .hero-layout {
+  .hero__layout {
     grid-template-columns: 1fr;
     gap: 48px;
     text-align: center;
   }
-  .hero-desc {
+  .hero__desc {
     max-width: none;
     margin-left: auto;
     margin-right: auto;
   }
-  .hero-btns {
+  .hero__buttons {
     justify-content: center;
   }
-  .hero-visual {
+  .hero__visual {
     min-height: 200px;
   }
-  .hero-screen-img {
+  .hero__screen-image {
     max-width: 500px;
   }
 }
 @media (max-width: 600px) {
-  .hero-title {
+  .hero__title {
     font-size: clamp(30px, 8vw, 42px);
   }
-  .hero-btns {
+  .hero__buttons {
     flex-direction: column;
   }
-  .hero-btn {
+  .hero__button {
     width: 100%;
     text-align: center;
   }
-  .hero-visual {
+  .hero__visual {
     display: none;
   }
 }

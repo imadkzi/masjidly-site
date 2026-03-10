@@ -1,0 +1,28 @@
+// Color tokens (map to CSS custom properties in App.vue)
+$color-ink: var(--ink);
+$color-cream: var(--cream);
+$color-cream-dark: var(--cream-dark);
+$color-gold: var(--gold);
+$color-gold-light: var(--gold-light);
+$color-teal: var(--teal);
+$color-white: var(--white);
+$color-muted: var(--muted);
+$color-border: var(--border);
+
+// Typography tokens
+$font-sans: 'DM Sans', sans-serif;
+$font-display: 'Raleway', sans-serif;
+$font-mono: 'DM Mono', monospace;
+
+// Layout tokens
+$section-padding-x: var(--section-padding-x);
+$section-padding-y: var(--section-padding-y);
+$section-gap: var(--section-gap);
+$nav-offset: var(--nav-offset);
+
+// Radii & shadows
+$radius-card: 14px;
+$radius-pill: 999px;
+$shadow-card-soft: 0 14px 40px rgba(17, 43, 50, 0.08);
+$shadow-card-strong: 0 22px 60px rgba(0, 0, 0, 0.55);
+
