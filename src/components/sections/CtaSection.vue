@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { cta } from '@/data/siteContent'
+import AppIcon from '@/components/icons/AppIcon.vue'
 
 const name = ref('')
 const masjidName = ref('')
@@ -10,6 +11,7 @@ const buttonText = ref(cta.buttonText)
 const sending = ref(false)
 const message = ref('')
 const error = ref(false)
+const success = ref(false)
 
 async function handleSubmit() {
   if (!name.value.trim() || !masjidName.value.trim() || !email.value || !email.value.includes('@')) {
@@ -21,6 +23,27 @@ async function handleSubmit() {
   sending.value = true
   error.value = false
   message.value = ''
+
+  const markSuccess = () => {
+    success.value = true
+    buttonText.value = 'Sent ✓'
+    name.value = ''
+    masjidName.value = ''
+    role.value = ''
+    email.value = ''
+  }
+
+  // For local testing (when functions may not be running), always show success
+  if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+    markSuccess()
+    sending.value = false
+    setTimeout(() => {
+      buttonText.value = cta.buttonText
+      success.value = false
+      error.value = false
+    }, 5000)
+    return
+  }
 
   try {
     const res = await fetch('/.netlify/functions/contact', {
@@ -36,12 +59,7 @@ async function handleSubmit() {
 
     if (!res.ok) throw new Error('Request failed')
 
-    buttonText.value = 'Sent ✓'
-    message.value = 'Thanks — we’ll be in touch shortly.'
-    name.value = ''
-    masjidName.value = ''
-    role.value = ''
-    email.value = ''
+    markSuccess()
   } catch (e) {
     console.error(e)
     error.value = true
@@ -50,9 +68,8 @@ async function handleSubmit() {
     sending.value = false
     setTimeout(() => {
       buttonText.value = cta.buttonText
-      message.value = ''
       error.value = false
-    }, 4000)
+    }, 5000)
   }
 }
 </script>
@@ -64,62 +81,75 @@ async function handleSubmit() {
       <span class="cta__tag">{{ cta.label }}</span>
       <h2 class="cta__title">{{ cta.title }}</h2>
       <p class="cta__body">{{ cta.body }}</p>
-      <form class="cta__form" @submit.prevent="handleSubmit">
-        <div class="cta__field-group">
-          <label class="cta__label">
-            Name
-            <input
-              v-model="name"
-              type="text"
-              name="name"
-              class="cta__input"
-              autocomplete="name"
-              required
-            />
-          </label>
-          <label class="cta__label">
-            Masjid name
-            <input
-              v-model="masjidName"
-              type="text"
-              name="masjid"
-              class="cta__input"
-              autocomplete="organization"
-              required
-            />
-          </label>
+      <form class="cta__form" @submit.prevent="handleSubmit" aria-live="polite">
+        <template v-if="!success">
+          <div class="cta__field-group">
+            <label class="cta__label">
+              Name
+              <input
+                v-model="name"
+                type="text"
+                name="name"
+                class="cta__input"
+                autocomplete="name"
+                required
+              />
+            </label>
+            <label class="cta__label">
+              Masjid name
+              <input
+                v-model="masjidName"
+                type="text"
+                name="masjid"
+                class="cta__input"
+                autocomplete="organization"
+                required
+              />
+            </label>
+          </div>
+          <div class="cta__field-group cta__field-group--secondary">
+            <label class="cta__label">
+              Role
+              <input
+                v-model="role"
+                type="text"
+                name="role"
+                class="cta__input"
+                autocomplete="organization-title"
+              />
+            </label>
+            <label class="cta__label">
+              Email
+              <input
+                v-model="email"
+                type="email"
+                name="email"
+                :placeholder="cta.emailPlaceholder"
+                class="cta__input"
+                autocomplete="email"
+                required
+              />
+            </label>
+          </div>
+          <button type="submit" class="cta__button" :disabled="sending">
+            {{ sending ? 'Sending…' : buttonText }}
+          </button>
+
+          <p v-if="message" class="cta__note cta__note--error">
+            {{ message }}
+          </p>
+        </template>
+
+        <div v-else class="cta__success">
+          <div class="cta__success-icon" aria-hidden="true">
+            <AppIcon name="check" :size="20" />
+          </div>
+          <h3 class="cta__success-title">Thanks, we’ve got your details.</h3>
+          <p class="cta__success-text">
+            We’ll reach out shortly to walk through Masjidly and the next steps for your masjid.
+          </p>
         </div>
-        <div class="cta__field-group cta__field-group--secondary">
-          <label class="cta__label">
-            Role
-            <input
-              v-model="role"
-              type="text"
-              name="role"
-              class="cta__input"
-              autocomplete="organization-title"
-            />
-          </label>
-          <label class="cta__label">
-            Email
-            <input
-              v-model="email"
-              type="email"
-              name="email"
-              :placeholder="cta.emailPlaceholder"
-              class="cta__input"
-              autocomplete="email"
-              required
-            />
-          </label>
-        </div>
-        <button type="submit" class="cta__button" :disabled="sending">
-          {{ sending ? 'Sending…' : buttonText }}
-        </button>
       </form>
-      <p v-if="message" class="cta__note" :class="{ 'cta__note--error': error }">
-        {{ message }}
-      </p>
     </div>
     </div>
   </section>
@@ -228,17 +258,58 @@ async function handleSubmit() {
 
 .cta__note {
   font-size: 13px;
-  color: var(--muted);
+  margin-top: 8px;
 }
 
 .cta__note--error {
   color: #b91c1c;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(248, 113, 113, 0.08);
+  border: 1px solid rgba(248, 113, 113, 0.4);
 }
 
 .cta__note a {
   color: var(--teal);
   text-decoration: none;
   font-weight: 600;
+}
+
+.cta__success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 22px 16px 20px;
+  gap: 10px;
+}
+
+.cta__success-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.5);
+  color: #047857;
+  box-shadow: 0 12px 30px rgba(16, 185, 129, 0.2);
+}
+
+.cta__success-title {
+  font-family: 'Raleway', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.cta__success-text {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--muted);
+  max-width: 420px;
 }
 
 @media (max-width: 600px) {
