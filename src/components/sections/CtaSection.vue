@@ -92,6 +92,7 @@ async function handleSubmit() {
                 name="name"
                 class="cta__input"
                 autocomplete="name"
+                :placeholder="cta.namePlaceholder"
                 required
               />
             </label>
@@ -103,6 +104,7 @@ async function handleSubmit() {
                 name="masjid"
                 class="cta__input"
                 autocomplete="organization"
+                :placeholder="cta.masjidNamePlaceholder"
                 required
               />
             </label>
@@ -116,6 +118,7 @@ async function handleSubmit() {
                 name="role"
                 class="cta__input"
                 autocomplete="organization-title"
+                :placeholder="cta.rolePlaceholder"
               />
             </label>
             <label class="cta__label">
@@ -167,6 +170,10 @@ async function handleSubmit() {
   max-width: 920px;
   margin: 0 auto;
   text-align: center;
+  background: var(--white);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 14px 40px rgba(17, 43, 50, 0.08);
 }
 
 .cta__tag {
@@ -200,11 +207,7 @@ async function handleSubmit() {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
   padding: 14px 14px 12px;
-  margin-bottom: 16px;
-  background: #ffffff;
 }
 
 .cta__field-group {
@@ -239,6 +242,10 @@ async function handleSubmit() {
 }
 
 .cta__input:focus { outline: none; }
+
+.cta__input::placeholder {
+  color: rgba(17, 43, 50, 0.3);
+}
 
 .cta__button {
   @include button-base();
