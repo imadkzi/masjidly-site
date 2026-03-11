@@ -356,7 +356,7 @@ export const cta = {
   emailPlaceholder: "masjid@example.com",
   buttonText: "Request Setup",
   note: "Or email us directly at",
-  email: "hello@masjidly.co.uk",
+  email: "salaam@masjidly.co.uk",
 };
 
 export const navLinks = [

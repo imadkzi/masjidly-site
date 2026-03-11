@@ -2,16 +2,58 @@
 import { ref } from 'vue'
 import { cta } from '@/data/siteContent'
 
+const name = ref('')
+const masjidName = ref('')
+const role = ref('')
 const email = ref('')
 const buttonText = ref(cta.buttonText)
+const sending = ref(false)
+const message = ref('')
+const error = ref(false)
 
-function handleSubmit() {
-  if (!email.value.includes('@')) return
-  buttonText.value = 'Sent ✓'
-  email.value = ''
-  setTimeout(() => {
-    buttonText.value = cta.buttonText
-  }, 3000)
+async function handleSubmit() {
+  if (!name.value.trim() || !masjidName.value.trim() || !email.value || !email.value.includes('@')) {
+    error.value = true
+    message.value = 'Please fill in your name, masjid name, and a valid email.'
+    return
+  }
+
+  sending.value = true
+  error.value = false
+  message.value = ''
+
+  try {
+    const res = await fetch('/.netlify/functions/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: name.value.trim(),
+        masjidName: masjidName.value.trim(),
+        role: role.value.trim(),
+        email: email.value.trim(),
+      }),
+    })
+
+    if (!res.ok) throw new Error('Request failed')
+
+    buttonText.value = 'Sent ✓'
+    message.value = 'Thanks — we’ll be in touch shortly.'
+    name.value = ''
+    masjidName.value = ''
+    role.value = ''
+    email.value = ''
+  } catch (e) {
+    console.error(e)
+    error.value = true
+    message.value = 'Something went wrong. Please try again in a moment.'
+  } finally {
+    sending.value = false
+    setTimeout(() => {
+      buttonText.value = cta.buttonText
+      message.value = ''
+      error.value = false
+    }, 4000)
+  }
 }
 </script>
 
@@ -23,18 +65,60 @@ function handleSubmit() {
       <h2 class="cta__title">{{ cta.title }}</h2>
       <p class="cta__body">{{ cta.body }}</p>
       <form class="cta__form" @submit.prevent="handleSubmit">
-        <input
-          v-model="email"
-          type="email"
-          :placeholder="cta.emailPlaceholder"
-          class="cta__input"
-          required
-        />
-        <button type="submit" class="cta__button">{{ buttonText }}</button>
+        <div class="cta__field-group">
+          <label class="cta__label">
+            Name
+            <input
+              v-model="name"
+              type="text"
+              name="name"
+              class="cta__input"
+              autocomplete="name"
+              required
+            />
+          </label>
+          <label class="cta__label">
+            Masjid name
+            <input
+              v-model="masjidName"
+              type="text"
+              name="masjid"
+              class="cta__input"
+              autocomplete="organization"
+              required
+            />
+          </label>
+        </div>
+        <div class="cta__field-group cta__field-group--secondary">
+          <label class="cta__label">
+            Role
+            <input
+              v-model="role"
+              type="text"
+              name="role"
+              class="cta__input"
+              autocomplete="organization-title"
+            />
+          </label>
+          <label class="cta__label">
+            Email
+            <input
+              v-model="email"
+              type="email"
+              name="email"
+              :placeholder="cta.emailPlaceholder"
+              class="cta__input"
+              autocomplete="email"
+              required
+            />
+          </label>
+        </div>
+        <button type="submit" class="cta__button" :disabled="sending">
+          {{ sending ? 'Sending…' : buttonText }}
+        </button>
       </form>
-      <p class="cta__note">
-        {{ cta.note }}
-        <a :href="`mailto:${cta.email}`">{{ cta.email }}</a>
+      <p v-if="message" class="cta__note" :class="{ 'cta__note--error': error }">
+        {{ message }}
       </p>
     </div>
     </div>
@@ -50,7 +134,7 @@ function handleSubmit() {
 }
 
 .cta__inner {
-  max-width: 720px;
+  max-width: 920px;
   margin: 0 auto;
   text-align: center;
 }
@@ -84,18 +168,42 @@ function handleSubmit() {
 
 .cta__form {
   display: flex;
-  gap: 0;
+  flex-direction: column;
+  gap: 12px;
   border: 1px solid var(--border);
-  border-radius: 6px;
-  overflow: hidden;
+  border-radius: 10px;
+  padding: 14px 14px 12px;
   margin-bottom: 16px;
+  background: #ffffff;
+}
+
+.cta__field-group {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 12px;
+}
+
+.cta__field-group--secondary {
+  margin-top: 4px;
+}
+
+.cta__label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(17, 43, 50, 0.7);
 }
 
 .cta__input {
-  flex: 1;
-  padding: 16px 20px;
-  border: none;
-  font-size: 15px;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(17, 43, 50, 0.14);
+  font-size: 14px;
   color: var(--ink);
   background: var(--white);
 }
@@ -123,6 +231,10 @@ function handleSubmit() {
   color: var(--muted);
 }
 
+.cta__note--error {
+  color: #b91c1c;
+}
+
 .cta__note a {
   color: var(--teal);
   text-decoration: none;
@@ -131,7 +243,11 @@ function handleSubmit() {
 
 @media (max-width: 600px) {
   .cta { padding: 48px 0; }
-  .cta__form { flex-direction: column; }
-  .cta__button { width: 100%; }
+  .cta__field-group {
+    grid-template-columns: 1fr;
+  }
+  .cta__button {
+    width: 100%;
+  }
 }
 </style>
