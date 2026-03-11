@@ -13,7 +13,7 @@ const heroScreenPlaceholder =
         <div class="hero__text" data-animate>
           <span class="hero__tag">{{ hero.eyebrow }}</span>
           <h1 class="hero__title">
-            {{ hero.title }} <em>{{ hero.titleEmphasis }}</em>
+            <em>{{ hero.titleEmphasis }}</em> {{ hero.title }}
           </h1>
           <p class="hero__desc">{{ hero.body }}</p>
           <div class="hero__buttons">
@@ -49,7 +49,7 @@ const heroScreenPlaceholder =
 </template>
 
 <style scoped lang="scss">
-@use '@/styles/mixins' as *;
+@use "@/styles/mixins" as *;
 
 .hero {
   min-height: 85dvh;
@@ -57,10 +57,10 @@ const heroScreenPlaceholder =
   align-items: center;
   padding: clamp(48px, 6vw, 80px) 0;
   /* Ensure hero content starts below fixed nav + iOS safe-area inset */
-  padding-top: calc(var(--nav-offset) + env(safe-area-inset-top, 0px) + clamp(24px, 5vw, 56px));
-  background:
-    var(--ink)
-    url("/ink-pattern.svg") center top / cover no-repeat;
+  padding-top: calc(
+    var(--nav-offset) + env(safe-area-inset-top, 0px) + clamp(24px, 5vw, 56px)
+  );
+  background: var(--ink) url("/ink-pattern.svg") center top / cover no-repeat;
   position: relative;
   overflow: hidden;
 }

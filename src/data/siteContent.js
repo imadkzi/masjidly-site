@@ -4,9 +4,9 @@
  */
 
 export const hero = {
-  eyebrow: "Prayer Time Display for Masajid",
-  title: "Replace your slideshow with a",
-  titleEmphasis: "proper prayer display.",
+  eyebrow: "Built for Masajid",
+  title: "to display your prayer times and announcements",
+  titleEmphasis: "A better way",
   body: "Masjidly shows accurate prayer times and event announcements on your masjid's TV screens. Anyone on your committee can manage it from a simple browser dashboard. No PowerPoint, no USB drives, no IT support.",
   primaryCta: "View Pricing",
   primaryCtaHref: "#pricing",
