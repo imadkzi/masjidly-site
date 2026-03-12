@@ -66,7 +66,7 @@ const activeItem = computed(
 
 .showcase__tag {
   font-family: $font-mono;
-  font-size: 11px;
+  font-size: $font-size-caption;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--gold);
@@ -85,7 +85,7 @@ const activeItem = computed(
 }
 
 .showcase__desc {
-  font-size: 16px;
+  font-size: $font-size-body-lg;
   line-height: 1.72;
   color: rgba(245, 240, 232, 0.48);
   max-width: 560px;
@@ -104,7 +104,7 @@ const activeItem = computed(
 
 .showcase__nav-button {
   font-family: $font-mono;
-  font-size: 11px;
+  font-size: $font-size-caption;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   padding: 10px 20px;
@@ -148,7 +148,7 @@ const activeItem = computed(
 .showcase__caption {
   text-align: center;
   margin-top: 24px;
-  font-size: 14px;
+  font-size: $font-size-body;
   color: rgba(245, 240, 232, 0.45);
   max-width: 560px;
   margin-left: auto;
@@ -165,7 +165,7 @@ const activeItem = computed(
   }
   .showcase__nav-button {
     padding: 8px 16px;
-    font-size: 10px;
+    font-size: $font-size-micro;
   }
 }
 

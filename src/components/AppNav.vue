@@ -176,7 +176,7 @@ watch(menuOpen, (open) => {
   text-decoration: none;
   color: var(--ink);
   font-family: $font-sans;
-  font-size: 13.5px;
+  font-size: $font-size-body;
   font-weight: 500;
   opacity: 0.65;
   transition: opacity 0.2s;
@@ -262,7 +262,7 @@ watch(menuOpen, (open) => {
   color: var(--ink);
   text-decoration: none;
   font-family: 'Raleway', sans-serif;
-  font-size: 24px;
+  font-size: $font-size-display-sm;
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.2;
@@ -280,7 +280,7 @@ watch(menuOpen, (open) => {
   padding: 20px 0;
   border: 2px solid var(--ink);
   border-radius: 8px;
-  font-size: 16px !important;
+  font-size: $font-size-body-lg !important;
 }
 
 .menu-enter-active,

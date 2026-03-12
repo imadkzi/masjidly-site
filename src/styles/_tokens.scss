@@ -10,9 +10,33 @@ $color-muted: var(--muted);
 $color-border: var(--border);
 
 // Typography tokens
-$font-sans: 'DM Sans', sans-serif;
-$font-display: 'Raleway', sans-serif;
-$font-mono: 'DM Mono', monospace;
+$font-sans: "DM Sans", sans-serif;
+$font-display: "Raleway", sans-serif;
+$font-mono: "DM Mono", monospace;
+
+// Font size tokens (semantic)
+// Global/section-level (used for SectionHeader and similar)
+$font-size-section-label: clamp(9px, 1.1vw, 11px);
+$font-size-section-title: clamp(24px, 3.2vw, 52px);
+$font-size-section-body: clamp(14px, 1.6vw, 17px);
+
+// Core body scale
+$font-size-body-xs: 12px;
+$font-size-body-sm: 13px;
+$font-size-body: 14px;
+$font-size-body-lg: 16px;
+
+// UI/supporting text
+$font-size-caption: 11px;
+$font-size-mono-small: 9px;
+$font-size-micro: 10px;
+$font-size-micro-mono: 9.5px;
+
+// Display / headings used in pricing / hero, etc.
+$font-size-heading-sm: 18px;
+$font-size-display-sm: 22px;
+$font-size-display-md: 30px;
+$font-size-display-lg: 42px;
 
 // Layout tokens
 $section-padding-x: var(--section-padding-x);
@@ -25,4 +49,3 @@ $radius-card: 14px;
 $radius-pill: 999px;
 $shadow-card-soft: 0 14px 40px rgba(17, 43, 50, 0.08);
 $shadow-card-strong: 0 22px 60px rgba(0, 0, 0, 0.55);
-

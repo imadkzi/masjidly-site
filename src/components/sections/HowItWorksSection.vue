@@ -89,6 +89,7 @@ const activeStepData = computed(() => howItWorks.steps[activeStep.value])
 
 <style scoped lang="scss">
 @use '@/styles/mixins' as *;
+@use '@/styles/tokens' as *;
 
 .how {
   padding: var(--section-padding-y) 0;
@@ -146,7 +147,7 @@ const activeStepData = computed(() => howItWorks.steps[activeStep.value])
   height: 34px;
   border-radius: 999px;
   font-family: 'DM Mono', monospace;
-  font-size: 12px;
+  font-size: $font-size-body-xs;
   letter-spacing: 0.15em;
   color: var(--ink);
   background: var(--gold);
@@ -170,7 +171,7 @@ const activeStepData = computed(() => howItWorks.steps[activeStep.value])
 
 .how__card-heading {
   font-family: 'Raleway', sans-serif;
-  font-size: 16px;
+  font-size: $font-size-body-lg;
   font-weight: 800;
   color: var(--cream);
   margin: 0 0 10px 0;
@@ -178,7 +179,7 @@ const activeStepData = computed(() => howItWorks.steps[activeStep.value])
 }
 
 .how__card-text {
-  font-size: 14px;
+  font-size: $font-size-body;
   line-height: 1.65;
   color: rgba(245, 240, 232, 0.5);
   margin: 0;
@@ -195,7 +196,7 @@ const activeStepData = computed(() => howItWorks.steps[activeStep.value])
   width: 34px;
   height: 34px;
   font-family: 'DM Mono', monospace;
-  font-size: 12px;
+  font-size: $font-size-body-xs;
   letter-spacing: 0.15em;
   color: rgba(245, 240, 232, 0.65);
   background: transparent;

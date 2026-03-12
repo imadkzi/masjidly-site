@@ -55,6 +55,7 @@ const { openIndex, toggle } = useFaqAccordion()
 
 <style scoped lang="scss">
 @use '@/styles/mixins' as *;
+@use '@/styles/tokens' as *;
 
 .why {
   padding: var(--section-padding-y) 0;
@@ -83,7 +84,7 @@ const { openIndex, toggle } = useFaqAccordion()
 
 .why__stat-value {
   font-family: 'Raleway', sans-serif;
-  font-size: 28px;
+  font-size: $font-size-section-body;
   font-weight: 900;
   color: var(--teal);
   line-height: 1;
@@ -92,7 +93,7 @@ const { openIndex, toggle } = useFaqAccordion()
 }
 
 .why__stat-text {
-  font-size: 14px;
+  font-size: $font-size-body;
   color: var(--muted);
   line-height: 1.5;
 }
@@ -105,12 +106,12 @@ const { openIndex, toggle } = useFaqAccordion()
   }
 
   .why__stat-value {
-    font-size: 22px;
+    font-size: $font-size-body-lg;
     margin-bottom: 4px;
   }
 
   .why__stat-text {
-    font-size: 11px;
+    font-size: $font-size-caption;
     line-height: 1.35;
   }
 }
@@ -121,7 +122,7 @@ const { openIndex, toggle } = useFaqAccordion()
 
 .why__faq-heading {
   font-family: 'DM Mono', monospace;
-  font-size: 11px;
+  font-size: $font-size-caption;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--teal);
@@ -141,7 +142,7 @@ const { openIndex, toggle } = useFaqAccordion()
   width: 100%;
   padding: 20px 0;
   text-align: left;
-  font-size: 14px;
+  font-size: $font-size-body;
   font-weight: 600;
   color: var(--ink);
   background: none;
@@ -168,7 +169,7 @@ const { openIndex, toggle } = useFaqAccordion()
 }
 
 .why__faq-answer {
-  font-size: 14px;
+  font-size: $font-size-body;
   color: var(--muted);
   line-height: 1.65;
   overflow: hidden;
@@ -220,7 +221,7 @@ const { openIndex, toggle } = useFaqAccordion()
 
   .why__faq-trigger {
     padding: 14px 0;
-    font-size: 13px;
+    font-size: $font-size-body-sm;
   }
 
   .why__faq-row.open .why__faq-answer {

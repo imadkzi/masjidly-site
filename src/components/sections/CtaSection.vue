@@ -160,6 +160,7 @@ async function handleSubmit() {
 
 <style scoped lang="scss">
 @use '@/styles/mixins' as *;
+@use '@/styles/tokens' as *;
 
 .cta {
   padding: var(--section-padding-y) 0;
@@ -178,7 +179,7 @@ async function handleSubmit() {
 
 .cta__tag {
   font-family: 'DM Mono', monospace;
-  font-size: 11px;
+  font-size: $font-size-caption;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--teal);
@@ -197,7 +198,7 @@ async function handleSubmit() {
 }
 
 .cta__body {
-  font-size: 16px;
+  font-size: $font-size-body-lg;
   color: var(--muted);
   line-height: 1.7;
   margin-bottom: 28px;
@@ -225,7 +226,7 @@ async function handleSubmit() {
   flex-direction: column;
   align-items: flex-start;
   gap: 4px;
-  font-size: 11px;
+  font-size: $font-size-caption;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: rgba(17, 43, 50, 0.7);
@@ -236,7 +237,7 @@ async function handleSubmit() {
   padding: 10px 12px;
   border-radius: 6px;
   border: 1px solid rgba(17, 43, 50, 0.14);
-  font-size: 14px;
+  font-size: $font-size-body;
   color: var(--ink);
   background: var(--white);
 }
@@ -253,7 +254,7 @@ async function handleSubmit() {
   color: var(--cream);
   border: none;
   font-family: 'Raleway', sans-serif;
-  font-size: 13px;
+  font-size: $font-size-body-sm;
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -264,7 +265,7 @@ async function handleSubmit() {
 .cta__button:hover { background: var(--teal); }
 
 .cta__note {
-  font-size: 13px;
+  font-size: $font-size-body-sm;
   margin-top: 8px;
 }
 
@@ -306,14 +307,14 @@ async function handleSubmit() {
 
 .cta__success-title {
   font-family: 'Raleway', sans-serif;
-  font-size: 18px;
+  font-size: $font-size-section-body;
   font-weight: 800;
   letter-spacing: -0.02em;
   color: var(--ink);
 }
 
 .cta__success-text {
-  font-size: 14px;
+  font-size: $font-size-body;
   line-height: 1.7;
   color: var(--muted);
   max-width: 420px;

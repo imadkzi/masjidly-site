@@ -35,7 +35,7 @@ import { marqueeItems } from '@/data/siteContent'
 
 .marquee-item {
   font-family: $font-mono;
-  font-size: 11.5px;
+  font-size: $font-size-body-xs;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--gold);
@@ -59,11 +59,11 @@ import { marqueeItems } from '@/data/siteContent'
 
 @media (max-width: 768px) {
   .marquee-track { gap: 24px; }
-  .marquee-item { font-size: clamp(10px, 2.2vw, 12px); }
+  .marquee-item { font-size: $font-size-body-xs; }
 }
 @media (max-width: 600px) {
   .marquee-wrap { padding: 12px 0; }
   .marquee-track { gap: 20px; }
-  .marquee-item { font-size: 10px; }
+  .marquee-item { font-size: $font-size-micro; }
 }
 </style>

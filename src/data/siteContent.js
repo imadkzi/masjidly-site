@@ -206,6 +206,12 @@ export const pricing = {
   title: "Less than the cost of printing posters.",
   subtitle:
     "A one-time setup fee covers installation and full configuration. Monthly fees apply to hosted plans only. Self-hosted and Player support is entirely optional. You are never locked in.",
+  introOffer: {
+    enabled: true,
+    label: "Introductory setup offer",
+    hostedSetupFee: "£69",
+    selfHostedSetupFee: "£59",
+  },
   plans: [
     {
       tier: "Hosted",

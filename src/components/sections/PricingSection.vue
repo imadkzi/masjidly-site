@@ -27,6 +27,12 @@ import SectionHeader from '@/components/SectionHeader.vue'
         }"
         data-animate
       >
+        <div
+          v-if="pricing.introOffer?.enabled"
+          class="pricing__ribbon"
+        >
+          25% off
+        </div>
         <div class="pricing__tier-row">
           <span class="pricing__tier">{{ plan.tier }}</span>
           <span v-if="plan.featured" class="pricing__badge">Recommended</span>
@@ -34,7 +40,29 @@ import SectionHeader from '@/components/SectionHeader.vue'
         <div class="pricing__name">{{ plan.name }}</div>
         <div>
           <div class="pricing__amount-label">Setup fee</div>
-          <div class="pricing__amount">{{ plan.setupFee }}</div>
+          <div class="pricing__amount">
+            <template v-if="pricing.introOffer?.enabled">
+              <span class="pricing__amount-original">
+                {{ plan.setupFee }}
+              </span>
+              <span class="pricing__amount-current">
+                {{
+                  plan.tier === 'Hosted'
+                    ? pricing.introOffer.hostedSetupFee
+                    : pricing.introOffer.selfHostedSetupFee
+                }}
+              </span>
+            </template>
+            <template v-else>
+              {{ plan.setupFee }}
+            </template>
+          </div>
+          <div
+            v-if="pricing.introOffer?.enabled"
+            class="pricing__intro-label"
+          >
+            {{ pricing.introOffer.label }}
+          </div>
         </div>
         <div class="pricing__divider"></div>
         <div>
@@ -94,6 +122,7 @@ import SectionHeader from '@/components/SectionHeader.vue'
 
 <style scoped lang="scss">
 @use '@/styles/mixins' as *;
+@use '@/styles/tokens' as *;
 
 .pricing {
   background:
@@ -112,7 +141,7 @@ import SectionHeader from '@/components/SectionHeader.vue'
 
 .pricing__subtitle {
   color: rgba(245, 240, 232, 0.48);
-  font-size: 15.5px;
+  font-size: $font-size-body-lg;
   max-width: 460px;
   margin-top: 10px;
   margin-bottom: 48px;
@@ -139,6 +168,7 @@ import SectionHeader from '@/components/SectionHeader.vue'
   flex-direction: column;
   gap: 14px;
   transition: border-color 0.2s, background 0.2s;
+  position: relative;
 }
 
 /* Staggered scroll-in animation for pricing cards */
@@ -202,7 +232,7 @@ import SectionHeader from '@/components/SectionHeader.vue'
 
 .pricing__tier {
   font-family: 'DM Mono', monospace;
-  font-size: 9px;
+  font-size: $font-size-micro-mono;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--gold);
@@ -211,7 +241,7 @@ import SectionHeader from '@/components/SectionHeader.vue'
 
 .pricing__badge {
   font-family: 'DM Mono', monospace;
-  font-size: 8px;
+  font-size: $font-size-micro;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--gold);
@@ -222,7 +252,7 @@ import SectionHeader from '@/components/SectionHeader.vue'
 
 .pricing__name {
   font-family: 'Raleway', sans-serif;
-  font-size: 15.5px;
+  font-size: $font-size-body-lg;
   font-weight: 800;
   color: var(--cream);
   line-height: 1.2;
@@ -231,19 +261,59 @@ import SectionHeader from '@/components/SectionHeader.vue'
 
 .pricing__amount {
   font-family: 'Raleway', sans-serif;
-  font-size: 30px;
+  font-size: $font-size-display-md;
   font-weight: 900;
   color: var(--cream);
   letter-spacing: -0.03em;
   line-height: 1;
+  margin-bottom: 10px;
 }
 
 .pricing__amount-label {
-  font-size: 9.5px;
+  font-size: $font-size-caption;
   color: rgba(245, 240, 232, 0.3);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-bottom: 3px;
+}
+
+.pricing__amount-original {
+  font-size: $font-size-body-lg;
+  font-weight: 600;
+  color: rgba(245, 240, 232, 0.5);
+  text-decoration: line-through;
+  margin-right: 6px;
+}
+
+.pricing__amount-current {
+  font-size: $font-size-display-md;
+  font-weight: 900;
+  color: var(--cream);
+}
+
+.pricing__intro-label {
+  font-family: 'DM Mono', monospace;
+  font-size: $font-size-body-xs;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.8;
+  margin-top: 4px;
+  color: rgba(245, 240, 232, 0.7);
+}
+
+.pricing__ribbon {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  padding: 4px 10px;
+  background: var(--gold);
+  color: var(--ink);
+  font-family: 'DM Mono', monospace;
+  font-size: $font-size-body-xs;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
 }
 
 .pricing__divider {
@@ -253,20 +323,20 @@ import SectionHeader from '@/components/SectionHeader.vue'
 
 .pricing__monthly-value {
   font-family: 'Raleway', sans-serif;
-  font-size: 17px;
+  font-size: $font-size-body-lg;
   font-weight: 800;
   color: var(--gold-light);
 }
 
 .pricing__monthly-value span {
   font-family: 'DM Sans', sans-serif;
-  font-size: 11px;
+  font-size: $font-size-caption;
   font-weight: 400;
   color: rgba(245, 240, 232, 0.3);
 }
 
 .pricing__monthly-label {
-  font-size: 9.5px;
+  font-size: $font-size-micro-mono;
   color: rgba(245, 240, 232, 0.3);
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -284,7 +354,7 @@ import SectionHeader from '@/components/SectionHeader.vue'
 }
 
 .pricing__list-item {
-  font-size: 12px;
+  font-size: $font-size-body-xs;
   color: rgba(245, 240, 232, 0.45);
   display: flex;
   align-items: flex-start;
@@ -313,7 +383,7 @@ import SectionHeader from '@/components/SectionHeader.vue'
   padding: 10px;
   border-radius: 4px;
   font-family: 'Raleway', sans-serif;
-  font-size: 11.5px;
+  font-size: $font-size-body-xs;
   font-weight: 800;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -352,7 +422,7 @@ import SectionHeader from '@/components/SectionHeader.vue'
 
 .pricing__player-tag {
   font-family: 'DM Mono', monospace;
-  font-size: 9.5px;
+  font-size: $font-size-micro-mono;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--gold);
@@ -361,7 +431,7 @@ import SectionHeader from '@/components/SectionHeader.vue'
 
 .pricing__player-title {
   font-family: 'Raleway', sans-serif;
-  font-size: 22px;
+  font-size: $font-size-display-sm;
   font-weight: 900;
   color: var(--cream);
   margin-bottom: 8px;
@@ -369,7 +439,7 @@ import SectionHeader from '@/components/SectionHeader.vue'
 }
 
 .pricing__player-desc {
-  font-size: 13.5px;
+  font-size: $font-size-body-sm;
   color: rgba(245, 240, 232, 0.46);
   line-height: 1.65;
   max-width: 500px;
@@ -378,7 +448,7 @@ import SectionHeader from '@/components/SectionHeader.vue'
 
 .pricing__player-coming {
   margin-top: 6px;
-  font-size: 12px;
+  font-size: $font-size-body-xs;
   font-family: 'DM Mono', monospace;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -387,7 +457,7 @@ import SectionHeader from '@/components/SectionHeader.vue'
 
 .pricing__player-price {
   font-family: 'Raleway', sans-serif;
-  font-size: 42px;
+  font-size: $font-size-display-lg;
   font-weight: 900;
   color: var(--gold);
   line-height: 1;
@@ -397,7 +467,7 @@ import SectionHeader from '@/components/SectionHeader.vue'
 
 .pricing__player-price-sub {
   font-family: 'DM Mono', monospace;
-  font-size: 9.5px;
+  font-size: $font-size-micro-mono;
   color: rgba(245, 240, 232, 0.28);
   letter-spacing: 0.06em;
   text-align: right;
@@ -405,7 +475,7 @@ import SectionHeader from '@/components/SectionHeader.vue'
 }
 
 .pricing__player-price-note {
-  font-size: 12.5px;
+  font-size: $font-size-body-xs;
   color: rgba(245, 240, 232, 0.45);
   text-align: right;
   margin-top: 6px;
@@ -476,7 +546,7 @@ import SectionHeader from '@/components/SectionHeader.vue'
   }
   .pricing__grid { grid-template-columns: 1fr; }
   .pricing__player { padding: 24px 20px; gap: 24px; }
-  .pricing__player-title { font-size: 18px; }
-  .pricing__player-price { font-size: 32px; }
+  .pricing__player-title { font-size: $font-size-heading-sm; }
+  .pricing__player-price { font-size: $font-size-display-md; }
 }
 </style>

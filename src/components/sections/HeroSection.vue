@@ -50,6 +50,7 @@ const heroScreenPlaceholder =
 
 <style scoped lang="scss">
 @use "@/styles/mixins" as *;
+@use "@/styles/tokens" as *;
 
 .hero {
   min-height: 85dvh;
@@ -82,7 +83,7 @@ const heroScreenPlaceholder =
 
 .hero__tag {
   font-family: "DM Mono", monospace;
-  font-size: 11px;
+  font-size: $font-size-caption;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--gold);
@@ -107,7 +108,7 @@ const heroScreenPlaceholder =
 }
 
 .hero__desc {
-  font-size: 17px;
+  font-size: $font-size-body-lg;
   line-height: 1.75;
   color: rgba(245, 240, 232, 0.65);
   max-width: 440px;

@@ -109,6 +109,7 @@ onMounted(() => {
 
 <style scoped lang="scss">
 @use '@/styles/mixins' as *;
+@use '@/styles/tokens' as *;
 
 .tech {
   padding: var(--section-padding-y) 0;
@@ -149,7 +150,7 @@ onMounted(() => {
 
 .tech__group-label {
   font-family: "DM Mono", monospace;
-  font-size: 10px;
+  font-size: $font-size-caption;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--muted);
@@ -182,14 +183,14 @@ onMounted(() => {
 }
 
 .tech__name {
-  font-size: 14px;
+  font-size: $font-size-body;
   font-weight: 600;
   color: var(--ink);
   margin: 0 0 2px 0;
 }
 
 .tech__item-desc {
-  font-size: 12px;
+  font-size: $font-size-body-sm;
   color: var(--muted);
   margin: 0;
 }
@@ -214,7 +215,7 @@ onMounted(() => {
 .tech__tab {
   padding: 8px 12px;
   font-family: "DM Mono", monospace;
-  font-size: 9px;
+  font-size: $font-size-mono-small;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--muted);

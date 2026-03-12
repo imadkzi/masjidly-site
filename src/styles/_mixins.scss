@@ -2,7 +2,7 @@
 
 @mixin section-tag($color: $color-teal) {
   font-family: $font-mono;
-  font-size: 11px;
+  font-size: $font-size-section-label;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: $color;
@@ -12,7 +12,7 @@
 
 @mixin section-heading($color: $color-ink) {
   font-family: $font-display;
-  font-size: clamp(28px, 3.5vw, 44px);
+  font-size: $font-size-section-title;
   font-weight: 900;
   line-height: 1.1;
   letter-spacing: -0.03em;
@@ -21,7 +21,7 @@
 }
 
 @mixin section-desc($color: $color-muted, $max-width: 520px) {
-  font-size: 16px;
+  font-size: $font-size-section-body;
   line-height: 1.7;
   color: $color;
   max-width: $max-width;
@@ -30,7 +30,7 @@
 // Buttons
 @mixin button-base($radius: 6px) {
   padding: 14px 28px;
-  font-size: 14px;
+  font-size: $font-size-body;
   font-weight: 600;
   text-decoration: none;
   border-radius: $radius;

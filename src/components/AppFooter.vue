@@ -54,7 +54,7 @@ import { scrollToId } from '@/utils/format'
 }
 .footer__logo {
   font-family: $font-display;
-  font-size: 14px;
+  font-size: $font-size-body;
   font-weight: 800;
   color: rgba(245, 240, 232, 0.5);
 }
@@ -70,7 +70,7 @@ import { scrollToId } from '@/utils/format'
 .footer__link {
   color: rgba(245, 240, 232, 0.36);
   text-decoration: none;
-  font-size: 11.5px;
+  font-size: $font-size-caption;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
@@ -80,7 +80,7 @@ import { scrollToId } from '@/utils/format'
 }
 
 .footer__copy {
-  font-size: 11px;
+  font-size: $font-size-caption;
   color: rgba(245, 240, 232, 0.3);
 }
 
@@ -110,11 +110,11 @@ import { scrollToId } from '@/utils/format'
   }
 
   .footer__link {
-    font-size: 11px;
+    font-size: $font-size-caption;
   }
 
   .footer__copy {
-    font-size: 10px;
+    font-size: $font-size-mono-small;
   }
 }
 </style>

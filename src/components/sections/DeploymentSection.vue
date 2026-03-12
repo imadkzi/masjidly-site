@@ -48,6 +48,7 @@ import SectionHeader from '@/components/SectionHeader.vue'
 
 <style scoped lang="scss">
 @use '@/styles/mixins' as *;
+@use '@/styles/tokens' as *;
 
 .deploy {
   padding: var(--section-padding-y) 0;
@@ -113,7 +114,7 @@ import SectionHeader from '@/components/SectionHeader.vue'
 }
 
 .deploy__pill {
-  font-size: 10px;
+  font-size: $font-size-caption;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -134,14 +135,14 @@ import SectionHeader from '@/components/SectionHeader.vue'
 
 .deploy__name {
   font-family: 'Raleway', sans-serif;
-  font-size: 19px;
+  font-size: $font-size-section-body;
   font-weight: 800;
   color: var(--ink);
   margin: 0 0 12px 0;
 }
 
 .deploy__desc-card {
-  font-size: 14px;
+  font-size: $font-size-body;
   line-height: 1.6;
   color: var(--muted);
   margin: 0 0 20px 0;
@@ -154,7 +155,7 @@ import SectionHeader from '@/components/SectionHeader.vue'
 }
 
 .deploy__features li {
-  font-size: 13px;
+  font-size: $font-size-body-sm;
   color: var(--muted);
   display: flex;
   gap: 10px;

@@ -91,6 +91,7 @@ const rightFeatures = computed(() => features.items.slice(midpoint.value))
 
 <style scoped lang="scss">
 @use '@/styles/mixins' as *;
+@use '@/styles/tokens' as *;
 
 .features {
   padding: var(--section-padding-y) 0;
@@ -163,7 +164,7 @@ const rightFeatures = computed(() => features.items.slice(midpoint.value))
 .features__accordion .features__title {
   flex: 1;
   margin: 0;
-  font-size: 15px;
+  font-size: $font-size-body-lg;
 }
 
 .features__chevron {
@@ -188,7 +189,7 @@ const rightFeatures = computed(() => features.items.slice(midpoint.value))
 
 .features__accordion .features__body {
   padding: 0 0 20px 54px;
-  font-size: 14px;
+  font-size: $font-size-body;
   line-height: 1.6;
 }
 
@@ -204,7 +205,7 @@ const rightFeatures = computed(() => features.items.slice(midpoint.value))
 
 .features__num {
   font-family: 'DM Mono', monospace;
-  font-size: 14px;
+  font-size: $font-size-body;
   font-weight: 500;
   color: var(--teal);
   opacity: 0.6;
@@ -216,7 +217,7 @@ const rightFeatures = computed(() => features.items.slice(midpoint.value))
 
 .features__title {
   font-family: 'Raleway', sans-serif;
-  font-size: 17px;
+  font-size: $font-size-section-body;
   font-weight: 800;
   color: var(--ink);
   margin: 0 0 6px 0;
@@ -224,7 +225,7 @@ const rightFeatures = computed(() => features.items.slice(midpoint.value))
 }
 
 .features__body {
-  font-size: 14px;
+  font-size: $font-size-body;
   line-height: 1.65;
   color: var(--muted);
   margin: 0;
