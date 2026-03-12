@@ -15,7 +15,30 @@ function closeMenu() {
 }
 
 function handleNavClick(href) {
-  scrollToId(href.slice(1));
+  if (typeof window === "undefined") return;
+
+  // Hash links (sections on the home page)
+  if (href.startsWith("#")) {
+    const path = window.location.pathname || "/";
+    if (path !== "/") {
+      // Navigate back to home and let the browser scroll to the anchor
+      window.location.href = `/${href.replace(/^#/, "") ? href : ""}`;
+      closeMenu();
+      return;
+    }
+    scrollToId(href.slice(1));
+    closeMenu();
+    return;
+  }
+
+  // Normal links (e.g. /docs)
+  window.location.href = href;
+  closeMenu();
+}
+
+function handleLogoClick() {
+  if (typeof window === "undefined") return;
+  window.location.href = "/";
   closeMenu();
 }
 
@@ -58,7 +81,7 @@ watch(menuOpen, (open) => {
 <template>
   <nav class="app-nav" :class="{ scrolled: isScrolled, hidden: !showNav }" ref="navEl">
     <div class="nav-container">
-      <a href="#" class="nav-logo" @click.prevent="handleNavClick('#hero')">
+      <a href="/" class="nav-logo" @click.prevent="handleLogoClick">
         <img src="/logo-full.svg" alt="Masjidly" class="nav-logo-img" />
       </a>
       <ul class="nav-links">
@@ -66,6 +89,9 @@ watch(menuOpen, (open) => {
           <a :href="link.href" @click.prevent="handleNavClick(link.href)">{{
             link.label
           }}</a>
+        </li>
+        <li>
+          <a href="/docs">Docs</a>
         </li>
         <li>
           <a href="#cta" class="nav-cta" @click.prevent="handleNavClick('#cta')"
@@ -95,6 +121,9 @@ watch(menuOpen, (open) => {
             <a :href="link.href" @click.prevent="handleNavClick(link.href)">{{
               link.label
             }}</a>
+          </li>
+          <li>
+            <a href="/docs">Docs</a>
           </li>
           <li>
             <a

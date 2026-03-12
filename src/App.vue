@@ -1,35 +1,13 @@
 <script setup>
 import AppNav from '@/components/AppNav.vue'
 import AppFooter from '@/components/AppFooter.vue'
-import HeroSection from '@/components/sections/HeroSection.vue'
-import MarqueeStrip from '@/components/sections/MarqueeStrip.vue'
-import FeaturesSection from '@/components/sections/FeaturesSection.vue'
-import ShowcaseSection from '@/components/sections/ShowcaseSection.vue'
-import HowItWorksSection from '@/components/sections/HowItWorksSection.vue'
-import DeploymentSection from '@/components/sections/DeploymentSection.vue'
-import TechSection from '@/components/sections/TechSection.vue'
-import PricingSection from '@/components/sections/PricingSection.vue'
-import WhySection from '@/components/sections/WhySection.vue'
-import CtaSection from '@/components/sections/CtaSection.vue'
-import { useScrollAnimation } from '@/composables/useScrollAnimation'
-
-useScrollAnimation('[data-animate]', 80)
 </script>
 
 <template>
   <div class="app">
     <AppNav />
     <main>
-      <HeroSection />
-      <MarqueeStrip />
-      <FeaturesSection />
-      <ShowcaseSection />
-      <HowItWorksSection />
-      <DeploymentSection />
-      <TechSection />
-      <PricingSection />
-      <WhySection />
-      <CtaSection />
+      <RouterView />
     </main>
     <AppFooter />
   </div>
@@ -94,44 +72,15 @@ body::after {
 [data-animate="scale"].anim-ready { transform: scale(0.96); }
 [data-animate="scale"].anim-ready.in { transform: scale(1); }
 
-.section-label {
-  font-family: 'DM Mono', monospace;
-  font-size: clamp(9px, 1.1vw, 11px);
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--teal);
-  margin-bottom: 14px;
+.app {
+  width: 100%;
+  min-height: 100vh;
   display: flex;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
 }
-
-.section-label::before {
-  content: '';
-  display: block;
-  width: 18px;
-  height: 1px;
-  background: var(--teal);
-}
-
-.section-title {
-  font-family: 'Raleway', sans-serif;
-  font-size: clamp(24px, 3.2vw, 52px);
-  font-weight: 900;
-  line-height: 1.08;
-  letter-spacing: -0.03em;
-  margin-bottom: 12px;
-}
-
-.section-intro p {
-  font-size: clamp(14px, 1.6vw, 17px);
-  margin-top: 10px;
-}
-
-.app { width: 100%; }
 
 main {
-  /* Optional: keep a little breathing room below the sticky nav */
+  flex: 1;
   padding-top: 0;
 }
 

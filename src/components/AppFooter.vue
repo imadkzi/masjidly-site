@@ -1,6 +1,22 @@
 <script setup>
 import { footerLinks } from '@/data/siteContent'
 import { scrollToId } from '@/utils/format'
+
+function handleFooterClick(href) {
+  if (typeof window === 'undefined') return
+
+  if (href.startsWith('#')) {
+    const path = window.location.pathname || '/'
+    if (path !== '/') {
+      window.location.href = `/${href.replace(/^#/, '') ? href : ''}`
+      return
+    }
+    scrollToId(href.slice(1))
+    return
+  }
+
+  window.location.href = href
+}
 </script>
 
 <template>
@@ -13,9 +29,14 @@ import { scrollToId } from '@/utils/format'
             <a
               :href="link.href"
               class="footer__link"
-              @click.prevent="scrollToId(link.href.slice(1))"
+              @click.prevent="handleFooterClick(link.href)"
             >
               {{ link.label }}
+            </a>
+          </li>
+          <li>
+            <a href="/docs" class="footer__link">
+              Docs
             </a>
           </li>
         </ul>

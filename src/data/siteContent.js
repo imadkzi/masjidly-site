@@ -36,7 +36,7 @@ export const features = {
   items: [
     {
       title: "Always-Current Prayer Times",
-      body: "Upload your yearly timetable once as a CSV or JSON file. Masjidly highlights the next salah throughout the day, including Jumu'ah, without any manual updates.",
+      body: "Upload your yearly timetable once as a CSV or JSON file. Masjidly highlights the next salah throughout the day, including Jummah, without any manual updates.",
       icon: "clock",
     },
     {
@@ -56,7 +56,7 @@ export const features = {
     },
     {
       title: "Runs Without Internet",
-      body: "Self-hosted and Player deployments work entirely on your local network. If your broadband goes down before Jumu'ah, the display keeps running. No cloud dependency.",
+      body: "Self-hosted and Player deployments work entirely on your local network. If your broadband goes down before Jummah, the display keeps running. No cloud dependency.",
       icon: "offline",
     },
     {
@@ -108,7 +108,7 @@ export const demoPrayerTimes = [
   { name: "Fajr", time: "05:42", isNext: false },
   { name: "Sunrise", time: "07:14", isNext: false },
   { name: "Dhuhr", time: "12:30", isNext: false },
-  { name: "Jumu'ah", time: "13:15", isNext: false },
+  { name: "Jummah", time: "13:15", isNext: false },
   { name: "Asr", time: "15:48", isNext: true },
   { name: "Maghrib", time: "18:22", isNext: false },
   { name: "Isha", time: "19:45", isNext: false },
@@ -298,7 +298,7 @@ export const why = {
     {
       value: "99.9%",
       label:
-        "Target uptime across live masajid, including Jumu’ah and Ramadan schedules",
+        "Target uptime across live masajid, including Jummah and Ramadan schedules",
     },
     {
       value: "0",
