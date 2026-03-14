@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed } from "vue";
 import {
   docsNav,
   docsGettingStarted,
@@ -9,24 +9,27 @@ import {
   docsDeployments,
   docsRoles,
   docsTroubleshooting,
-} from '@/data/docs'
+} from "@/data/docs";
+import AppIcon from "@/components/icons/AppIcon.vue";
 
-const activeSlug = ref('getting-started')
+const activeSlug = ref("getting-started");
 
 const sectionsBySlug = {
-  'getting-started': docsGettingStarted,
-  'prayer-times': docsPrayerTimes,
+  "getting-started": docsGettingStarted,
+  "prayer-times": docsPrayerTimes,
   announcements: docsAnnouncements,
   settings: docsSettings,
   deployments: docsDeployments,
   roles: docsRoles,
   troubleshooting: docsTroubleshooting,
-}
+};
 
-const activeDoc = computed(() => sectionsBySlug[activeSlug.value] || docsGettingStarted)
+const activeDoc = computed(
+  () => sectionsBySlug[activeSlug.value] || docsGettingStarted,
+);
 
 function setActive(slug) {
-  activeSlug.value = slug
+  activeSlug.value = slug;
 }
 </script>
 
@@ -40,29 +43,53 @@ function setActive(slug) {
             Guides for managing your Masjidly display.
           </h1>
           <p class="docs__hero-body">
-            Step‑by‑step instructions for uploading timetables, adding announcements,
-            and keeping your masjid’s screens accurate and up to date.
+            Step‑by‑step instructions for uploading timetables, adding
+            announcements, and keeping your masjid’s screens accurate and up to
+            date.
           </p>
         </div>
         <div class="docs__hero-meta">
           <p class="docs__hero-meta-heading">Useful links</p>
           <ul class="docs__hero-meta-list">
-            <li>Timetable CSV template (provided on setup)</li>
-            <li>Announcement poster template</li>
-            <li>Support: salaam@masjidly.co.uk</li>
+            <li>
+              <a
+                href="/templates/Masjidly-Timetable-Template-Monthly.xlsx"
+                download="Masjidly-Timetable-Template-Monthly.xlsx"
+                class="docs__hero-meta-link docs__hero-meta-link--download"
+              >
+                <AppIcon name="download" :size="16" />
+                Timetable CSV template
+              </a>
+            </li>
+            <li>
+              <a
+                href="/templates/Announcement-Template.png"
+                download="Masjidly-Announcement-Template.png"
+                class="docs__hero-meta-link docs__hero-meta-link--download"
+              >
+                <AppIcon name="download" :size="16" />
+                Announcement poster template
+              </a>
+            </li>
+            <li>
+              <a href="mailto:support@masjidly.co.uk" class="docs__hero-meta-link">
+                Support: support@masjidly.co.uk
+              </a>
+            </li>
           </ul>
         </div>
       </div>
     </div>
 
     <div class="section-container docs__container">
-      <aside class="docs__nav" aria-label="Docs navigation" data-animate="fade-left">
+      <aside
+        class="docs__nav"
+        aria-label="Docs navigation"
+        data-animate="fade-left"
+      >
         <h2 class="docs__nav-title">Docs</h2>
         <ul class="docs__nav-list">
-          <li
-            v-for="item in docsNav"
-            :key="item.slug"
-          >
+          <li v-for="item in docsNav" :key="item.slug">
             <button
               type="button"
               class="docs__nav-link"
@@ -92,7 +119,10 @@ function setActive(slug) {
             <h3 class="docs__section-heading">
               {{ section.heading }}
             </h3>
-            <ul class="docs__section-list" v-if="section.body && section.body.length">
+            <ul
+              class="docs__section-list"
+              v-if="section.body && section.body.length"
+            >
               <li
                 v-for="(line, i) in section.body"
                 :key="i"
@@ -100,36 +130,24 @@ function setActive(slug) {
                   'docs__section-item',
                   typeof line === 'string' && line.startsWith('Screenshot')
                     ? 'docs__section-item--screenshot'
-                    : ''
+                    : '',
                 ]"
               >
-                {{ typeof line === 'string' ? line : '' }}
+                {{ typeof line === "string" ? line : "" }}
               </li>
             </ul>
 
-            <table
-              v-if="section.table"
-              class="docs__table"
-            >
+            <table v-if="section.table" class="docs__table">
               <thead>
                 <tr>
-                  <th
-                    v-for="(head, i) in section.table.headers"
-                    :key="i"
-                  >
+                  <th v-for="(head, i) in section.table.headers" :key="i">
                     {{ head }}
                   </th>
                 </tr>
               </thead>
               <tbody>
-                <tr
-                  v-for="(row, rIndex) in section.table.rows"
-                  :key="rIndex"
-                >
-                  <td
-                    v-for="(cell, cIndex) in row"
-                    :key="cIndex"
-                  >
+                <tr v-for="(row, rIndex) in section.table.rows" :key="rIndex">
+                  <td v-for="(cell, cIndex) in row" :key="cIndex">
                     {{ cell }}
                   </td>
                 </tr>
@@ -139,6 +157,18 @@ function setActive(slug) {
               v-if="section.code"
               class="docs__code"
             ><code>{{ section.code }}</code></pre>
+            <div v-if="section.links?.length" class="docs__section-links">
+              <a
+                v-for="(link, linkIdx) in section.links"
+                :key="linkIdx"
+                :href="link.href"
+                class="docs__download-link"
+                download
+              >
+                <AppIcon name="download" :size="18" />
+                {{ link.label }}
+              </a>
+            </div>
           </section>
         </div>
       </article>
@@ -147,7 +177,7 @@ function setActive(slug) {
 </template>
 
 <style scoped lang="scss">
-@use '@/styles/tokens' as *;
+@use "@/styles/tokens" as *;
 
 .docs {
   padding-bottom: var(--section-padding-y);
@@ -159,8 +189,16 @@ function setActive(slug) {
 
 .docs__hero {
   background:
-    radial-gradient(circle at top left, rgba(201, 168, 76, 0.18), transparent 55%),
-    radial-gradient(circle at bottom right, rgba(42, 110, 127, 0.18), transparent 55%),
+    radial-gradient(
+      circle at top left,
+      rgba(201, 168, 76, 0.18),
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(42, 110, 127, 0.18),
+      transparent 55%
+    ),
     $color-ink;
   color: $color-cream;
   /* Match main hero: account for fixed nav + safe area before content */
@@ -229,6 +267,34 @@ function setActive(slug) {
   gap: 4px;
   font-size: $font-size-body-sm;
   color: rgba(245, 240, 232, 0.72);
+}
+
+.docs__hero-meta-link {
+  color: rgba(245, 240, 232, 0.88);
+  text-decoration: none;
+  text-underline-offset: 3px;
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
+
+  &:hover {
+    color: $color-gold;
+    text-decoration: underline;
+  }
+}
+
+.docs__hero-meta-link--download {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  color: $color-gold;
+
+  svg {
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    color: $color-cream;
+  }
 }
 
 .docs__container {
@@ -368,6 +434,37 @@ function setActive(slug) {
   font-style: italic;
 }
 
+.docs__section-links {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.docs__download-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  font-family: $font-display;
+  font-size: $font-size-body-sm;
+  font-weight: 600;
+  color: $color-white;
+  background: $color-teal;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.15s ease, transform 0.1s ease;
+
+  svg {
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    background: color-mix(in srgb, var(--teal) 94%, black);
+    color: $color-white;
+  }
+}
+
 .docs__section {
   padding-top: 10px;
   border-top: 1px solid rgba(17, 43, 50, 0.06);
@@ -403,7 +500,7 @@ function setActive(slug) {
   background: rgba(17, 43, 50, 0.06);
   border-radius: 6px;
   border: 1px solid rgba(17, 43, 50, 0.1);
-  font-family: 'DM Mono', monospace;
+  font-family: "DM Mono", monospace;
   font-size: 11px;
   line-height: 1.5;
   overflow-x: auto;
@@ -448,4 +545,3 @@ function setActive(slug) {
   }
 }
 </style>
-

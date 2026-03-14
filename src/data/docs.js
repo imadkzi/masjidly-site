@@ -68,6 +68,18 @@ export const docsPrayerTimes = {
   title: "Uploading and managing Prayer Times",
   sections: [
     {
+      heading: "Download the template",
+      body: [
+        "Use the Excel template below to fill in your monthly timetable, then export as CSV for import into the CMS.",
+      ],
+      links: [
+        {
+          label: "Download Masjidly Timetable Template (Monthly)",
+          href: "/templates/Masjidly-Timetable-Template-Monthly.xlsx",
+        },
+      ],
+    },
+    {
       heading: "Supported timetable formats",
       body: [
         "Prayer times are stored as one record per date in the Salaah Times collection.",
@@ -98,7 +110,11 @@ export const docsPrayerTimes = {
           ["islamic_month", "Name of the Islamic month", "Sha'ban"],
           ["islamic_date", "Islamic day of month", "20"],
           ["islamic_year", "Islamic year", "1447"],
-          ["sehri_end", "End of Sehri (Ramadan only—leave blank otherwise)", "05:15"],
+          [
+            "sehri_end",
+            "End of Sehri (Ramadan only—leave blank otherwise)",
+            "05:15",
+          ],
           ["fajr_start", "Fajr start time", "05:20"],
           ["fajr_jamat", "Fajr jamaat time", "05:45"],
           ["sunrise", "Sunrise time", "07:00"],
@@ -110,8 +126,16 @@ export const docsPrayerTimes = {
           ["maghrib_jamat", "Maghrib jamaat time", "18:18"],
           ["isha_start", "Isha start time", "20:00"],
           ["isha_jamat", "Isha jamaat time", "20:15"],
-          ["jummah_1", "First Jummah (Friday only—empty or null on other days)", "13:15"],
-          ["jummah_2", "Second Jummah (Friday only—empty or null on other days)", "14:15"],
+          [
+            "jummah_1",
+            "First Jummah (Friday only—empty or null on other days)",
+            "13:15",
+          ],
+          [
+            "jummah_2",
+            "Second Jummah (Friday only—empty or null on other days)",
+            "14:15",
+          ],
         ],
       },
     },
@@ -283,6 +307,18 @@ export const docsPrayerTimes = {
 export const docsAnnouncements = {
   title: "Adding and managing announcements",
   sections: [
+    {
+      heading: "Download the template",
+      body: [
+        "Use the poster template below to ensure your announcements are the correct size (1536 × 1024 px) with a safe content area (1344 × 840 px).",
+      ],
+      links: [
+        {
+          label: "Download Masjidly Announcement Poster Template",
+          href: "/templates/Announcement-Template.png",
+        },
+      ],
+    },
     {
       heading: "What announcements are",
       body: [
@@ -465,7 +501,7 @@ export const docsTroubleshooting = {
         "Masjid name and which deployment option you are using (Hosted, Self‑Hosted, Player).",
         "Approximate time the issue started.",
         "Screenshots of the relevant CMS entries and the TV display.",
-        "Send this information to salaam@masjidly.co.uk or via the site contact form.",
+        "Send this information to support@masjidly.co.uk or via the site contact form.",
       ],
     },
   ],
