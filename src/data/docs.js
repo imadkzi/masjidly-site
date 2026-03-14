@@ -1,5 +1,6 @@
 export const docsNav = [
   { slug: "getting-started", label: "Getting started" },
+  { slug: "timetable-guide", label: "Timetable Guide" },
   { slug: "prayer-times", label: "Prayer Times" },
   { slug: "announcements", label: "Announcements" },
   { slug: "settings", label: "Masjid Settings" },
@@ -60,6 +61,116 @@ export const docsGettingStarted = {
         "The TV / display loads the Masjidly app in a browser or via a player device.",
         "The app fetches the latest data and highlights “today” and “tomorrow” based on the current date and salaah times.",
       ],
+    },
+  ],
+};
+
+export const docsTimetableGuide = {
+  title: "Masjidly Timetable Guide",
+  sections: [
+    {
+      heading: "A simple guide for creating and uploading your prayer times spreadsheet",
+      body: [
+        "Use this guide to fill in your timetable template and upload it to Masjidly CMS.",
+      ],
+    },
+    {
+      heading: "1. Get the template",
+      body: [
+        "Use the Masjidly Timetable Template - Monthly.xlsx spreadsheet. This is your starting point.",
+      ],
+    },
+    {
+      heading: "2. What each column means",
+      body: [
+        "Fill in one row per day. Here is what each column is for:",
+      ],
+      table: {
+        headers: ["Column", "What to put", "Example"],
+        rows: [
+          ["date", "The date in YYYY-MM-DD format", "2026-01-15"],
+          ["islamic_month", "Islamic month name (in English)", "Rajab"],
+          ["islamic_date", "Day of the Islamic month (number)", "5"],
+          ["islamic_year", "Islamic year (number)", "1447"],
+          ["sehri_end", "End of Sehri (Ramadan only—leave blank otherwise)", "05:30 or leave blank"],
+          ["fajr_start", "Fajr start time", "06:13"],
+          ["fajr_jamat", "Fajr jamāt time", "07:00"],
+          ["sunrise", "Sunrise time", "08:24"],
+          ["zohar_start", "Zuhr start time", "12:16"],
+          ["zohar_jamat", "Zuhr jamāt time", "13:30"],
+          ["asr_start", "ʿAsr start time", "14:11"],
+          ["asr_jamat", "ʿAsr jamāt time", "14:30"],
+          ["maghrib_start", "Maghrib start time", "16:03"],
+          ["maghrib_jamat", "Maghrib jamāt time", "16:03"],
+          ["isha_start", "ʿIshā start time", "17:48"],
+          ["isha_jamat", "ʿIshā jamāt time", "18:00"],
+          ["jummah_1", "First Jummah time (Friday only)", "13:30 or leave blank"],
+          ["jummah_2", "Second Jummah time (if your masjid has two)", "14:00 or leave blank"],
+        ],
+      },
+    },
+    {
+      heading: "Time format",
+      body: [
+        "Use 24-hour format (e.g. 1:30 PM = 13:30, 6:00 PM = 18:00).",
+        "You can enter times as: 06:13, 06:13:00, or 06:13:00.000.",
+        "For optional times (Sehri, Jummah), you can leave the cell empty or type N/A or null.",
+      ],
+    },
+    {
+      heading: "3. Fill in your timetable",
+      body: [
+        "Open the template in Excel, Google Sheets, or Numbers.",
+        "The first row should have the column names (as shown above). Do not change these names.",
+        "Fill in each row with one day's times.",
+        "For Fridays, add the Jummah times in jummah_1 and jummah_2.",
+        "During Ramadan, add Sehri end times in sehri_end; otherwise leave it blank or N/A.",
+        "Save when you are done.",
+      ],
+    },
+    {
+      heading: "4. Save / export as CSV",
+      body: [
+        "Excel (desktop): File → Save As → choose CSV (Comma delimited) (*.csv).",
+        "Google Sheets: File → Download → Comma Separated Values (.csv).",
+        "Numbers (Mac): File → Export To → CSV.",
+      ],
+    },
+    {
+      heading: "5. Upload into Masjidly (Strapi Admin)",
+      body: [
+        "Open your Masjidly admin panel in a browser (e.g. https://your-masjidly-site.com/admin).",
+        "Log in, then go to Content Manager → Salaah Time (or Prayer times).",
+        "Look for the Import button (or similar CSV import option).",
+        "Select your CSV file and follow the on-screen steps to import.",
+        "Your timetable will appear on the Masjidly TV display.",
+      ],
+    },
+    {
+      heading: "Quick checklist",
+      body: [
+        "First row has the exact column names (date, islamic_month, islamic_date, islamic_year, sehri_end, fajr_start, etc.)",
+        "Dates are in YYYY-MM-DD format (e.g. 2026-01-15)",
+        "Times are in 24-hour format (e.g. 13:30 for 1:30 PM)",
+        "Optional times (Sehri, Jummah) are blank, N/A, or null where not applicable",
+        "File is saved as CSV (Comma Separated Values)",
+        "Imported via Strapi Admin → Content Manager → Salaah Time → Import",
+      ],
+    },
+    {
+      heading: "Common issues",
+      body: [
+        "Import failed or errors: Make sure the first row has the exact column names as listed above. Check that times look correct (e.g. 06:13, not 6:13 or 18:13).",
+        "Wrong times showing: Confirm you used 24-hour format (13:30 for 1:30 PM, 18:00 for 6:00 PM). Ensure no extra spaces or commas inside cells.",
+        "Jummah or Sehri missing: Use jummah_1 and jummah_2 for Friday; leave blank for other days. Use sehri_end only during Ramadan; otherwise leave blank or N/A.",
+      ],
+    },
+    {
+      heading: "Example first row of data",
+      body: [
+        "If you are building from scratch (without the template), your header row and one data row could look like this. Column order can vary; header names must match:",
+      ],
+      code: "date,islamic_month,islamic_date,islamic_year,sehri_end,fajr_start,sunrise,zohar_start,asr_start,maghrib_start,isha_start,fajr_jamat,zohar_jamat,jummah_1,jummah_2,asr_jamat,maghrib_jamat,isha_jamat\n2026-01-01,Rajab,12,1447,,06:13,08:24,12:16,14:11,16:03,17:48,07:00,13:30,,,14:30,16:03,18:00",
     },
   ],
 };

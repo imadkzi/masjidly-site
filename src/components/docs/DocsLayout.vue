@@ -3,6 +3,7 @@ import { ref, computed } from 'vue'
 import {
   docsNav,
   docsGettingStarted,
+  docsTimetableGuide,
   docsPrayerTimes,
   docsAnnouncements,
   docsSettings,
@@ -15,6 +16,7 @@ const activeSlug = ref('getting-started')
 
 const sectionsBySlug = {
   'getting-started': docsGettingStarted,
+  'timetable-guide': docsTimetableGuide,
   'prayer-times': docsPrayerTimes,
   announcements: docsAnnouncements,
   settings: docsSettings,
@@ -135,6 +137,10 @@ function setActive(slug) {
                 </tr>
               </tbody>
             </table>
+            <pre
+              v-if="section.code"
+              class="docs__code"
+            ><code>{{ section.code }}</code></pre>
           </section>
         </div>
       </article>
@@ -391,6 +397,25 @@ function setActive(slug) {
 .docs__table th {
   background: rgba(17, 43, 50, 0.03);
   font-weight: 600;
+}
+
+.docs__code {
+  margin-top: 12px;
+  padding: 12px 16px;
+  background: rgba(17, 43, 50, 0.06);
+  border-radius: 6px;
+  border: 1px solid rgba(17, 43, 50, 0.1);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  line-height: 1.5;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.docs__code code {
+  background: none;
+  padding: 0;
 }
 
 @media (max-width: 900px) {
