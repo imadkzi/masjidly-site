@@ -3,7 +3,6 @@ import { ref, computed } from 'vue'
 import {
   docsNav,
   docsGettingStarted,
-  docsTimetableGuide,
   docsPrayerTimes,
   docsAnnouncements,
   docsSettings,
@@ -16,7 +15,6 @@ const activeSlug = ref('getting-started')
 
 const sectionsBySlug = {
   'getting-started': docsGettingStarted,
-  'timetable-guide': docsTimetableGuide,
   'prayer-times': docsPrayerTimes,
   announcements: docsAnnouncements,
   settings: docsSettings,
