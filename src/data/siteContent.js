@@ -13,7 +13,7 @@ export const hero = {
   secondaryCta: "See Features",
   secondaryCtaHref: "#features",
   /** Screen mockup: add /hero-screen.png to public/ or use /showcase/display.png */
-  heroScreen: "/showcase/hero.png",
+  heroScreen: "/showcase/img_01.png",
 };
 
 export const marqueeItems = [
@@ -75,31 +75,30 @@ export const showcase = {
   tabs: ["TV Display", "CMS Dashboard", "Wall Mockup"],
   items: [
     {
-      id: "display",
-      label: "TV Display",
+      label: "Prayer Timetable",
       caption:
-        "The full-screen prayer display your congregation sees — prayer times, announcements, and scrolling notices.",
+        "How event posters and notices appear on screen, rotating automatically with clean spacing and strong contrast.",
+
       placeholder:
         "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='506' viewBox='0 0 900 506'%3E%3Crect fill='%231a2830' width='900' height='506'/%3E%3Ctext x='50%25' y='50%25' fill='%23c9a84c' font-family='sans-serif' font-size='20' text-anchor='middle' dy='.3em' opacity='0.8'%3ETV Display Screenshot%3C/text%3E%3C/svg%3E",
-      image: "/showcase/display.png",
+      image: "/showcase/img_02.png",
     },
     {
-      id: "cms",
-      label: "CMS Dashboard",
+      label: "Announcements Rotation",
       caption:
-        "The browser dashboard your committee uses to manage prayer times, announcements, and branding.",
+        "A full-screen view of the prayer timetable and what’s next, designed to be readable from the back of the prayer hall.",
+
       placeholder:
         "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='506' viewBox='0 0 900 506'%3E%3Crect fill='%231e2a30' width='900' height='506'/%3E%3Ctext x='50%25' y='50%25' fill='%23c9a84c' font-family='sans-serif' font-size='20' text-anchor='middle' dy='.3em' opacity='0.8'%3ECMS Dashboard Screenshot%3C/text%3E%3C/svg%3E",
-      image: "/showcase/cms.png",
+      image: "/showcase/img_04.png",
     },
     {
-      id: "wall",
-      label: "Wall Mockup",
+      label: "Real-world Layout",
       caption:
-        "How Masjidly looks installed in a real prayer hall — wall-mounted display, Raspberry Pi behind the screen.",
+        "A realistic screen layout showing how Masjidly looks once installed, built for everyday use, not demos.",
       placeholder:
         "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='506' viewBox='0 0 900 506'%3E%3Crect fill='%23162e35' width='900' height='506'/%3E%3Ctext x='50%25' y='50%25' fill='%23c9a84c' font-family='sans-serif' font-size='20' text-anchor='middle' dy='.3em' opacity='0.8'%3EWall Installation Photo%3C/text%3E%3C/svg%3E",
-      image: "/showcase/wall.png",
+      image: "/showcase/img_03.png",
     },
   ],
 };
