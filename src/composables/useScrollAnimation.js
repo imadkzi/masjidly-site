@@ -34,8 +34,6 @@ export function useScrollAnimation(
 
       const vh = window.innerHeight;
       els.forEach((el, i) => {
-        // If we've already animated this element, don't reset it.
-        if (el.classList.contains("in") || el.dataset.animDone === "1") return;
         const rect = el.getBoundingClientRect();
         const inView = rect.top < vh;
         el.classList.add("anim-ready");
@@ -49,20 +47,11 @@ export function useScrollAnimation(
           entries.forEach((entry) => {
             if (!entry.isIntersecting) return;
             const target = entry.target;
-            if (
-              target.classList.contains("in") ||
-              target.dataset.animDone === "1"
-            ) {
-              observer?.unobserve(target);
-              return;
-            }
             const delay = parseInt(target.dataset.animDelay, 10) || 0;
-            const t = setTimeout(() => {
+            setTimeout(() => {
               target.classList.remove("anim-ready");
               target.classList.add("in");
-              target.dataset.animDone = "1";
             }, delay);
-            timeouts.add(t);
             observer?.unobserve(target);
           });
         },
@@ -70,16 +59,13 @@ export function useScrollAnimation(
       );
 
       els.forEach((el) => {
-        if (el.classList.contains("in") || el.dataset.animDone === "1") return;
         const rect = el.getBoundingClientRect();
         if (rect.top < vh * 0.85) {
           const delay = parseInt(el.dataset.animDelay, 10) || 0;
-          const t = setTimeout(() => {
+          setTimeout(() => {
             el.classList.remove("anim-ready");
             el.classList.add("in");
-            el.dataset.animDone = "1";
           }, delay);
-          timeouts.add(t);
         } else {
           observer.observe(el);
         }
