@@ -1,80 +1,102 @@
-import { onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted } from "vue";
 
-const STORAGE_KEY = 'masjidly-animations-seen'
+const STORAGE_KEY = "masjidly-animations-seen";
 
-export function useScrollAnimation(selector = '[data-animate]', staggerDelay = 60) {
-  let observer = null
-  let beforeUnloadHandler = null
+export function useScrollAnimation(
+  selector = "[data-animate]",
+  staggerDelay = 60,
+) {
+  let observer = null;
+  let beforeUnloadHandler = null;
 
   onMounted(() => {
-    if (typeof window === 'undefined') return
+    if (typeof window === "undefined") return;
 
-    const hasSeenAnimations = localStorage.getItem(STORAGE_KEY) === '1'
+    const hasSeenAnimations = localStorage.getItem(STORAGE_KEY) === "1";
 
     const run = () => {
-      const STORAGE_KEY = 'masjidly-animations-seen'
-      const hasSeenBefore = localStorage.getItem(STORAGE_KEY)
-      if (hasSeenBefore) return
+      const STORAGE_KEY = "masjidly-animations-seen";
+      const hasSeenBefore = localStorage.getItem(STORAGE_KEY);
+      if (hasSeenBefore) return;
 
-      const markSeen = () => localStorage.setItem(STORAGE_KEY, '1')
-      window.addEventListener('beforeunload', markSeen)
-      onUnmounted(() => window.removeEventListener('beforeunload', markSeen))
-      const els = document.querySelectorAll(selector)
+      const markSeen = () => localStorage.setItem(STORAGE_KEY, "1");
+      window.addEventListener("beforeunload", markSeen);
+      onUnmounted(() => window.removeEventListener("beforeunload", markSeen));
+      const els = document.querySelectorAll(selector);
 
       if (hasSeenAnimations) {
         // Returning visitor: show content immediately, no animation
-        els.forEach((el) => el.classList.add('in'))
-        return
+        els.forEach((el) => el.classList.add("in"));
+        return;
       }
 
-      if (!('IntersectionObserver' in window)) return
+      if (!("IntersectionObserver" in window)) return;
 
-      const vh = window.innerHeight
+      const vh = window.innerHeight;
       els.forEach((el, i) => {
-        const rect = el.getBoundingClientRect()
-        const inView = rect.top < vh
-        el.classList.add('anim-ready')
-        el.dataset.animDelay = inView ? 80 + i * 80 : Math.min(i * staggerDelay, 280)
-      })
+        // If we've already animated this element, don't reset it.
+        if (el.classList.contains("in") || el.dataset.animDone === "1") return;
+        const rect = el.getBoundingClientRect();
+        const inView = rect.top < vh;
+        el.classList.add("anim-ready");
+        el.dataset.animDelay = inView
+          ? 80 + i * 80
+          : Math.min(i * staggerDelay, 280);
+      });
 
-      observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return
-          const target = entry.target
-          const delay = parseInt(target.dataset.animDelay, 10) || 0
-          setTimeout(() => {
-            target.classList.remove('anim-ready')
-            target.classList.add('in')
-          }, delay)
-          observer?.unobserve(target)
-        })
-      }, { threshold: 0.06, rootMargin: '0px 0px -5% 0px' })
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const target = entry.target;
+            if (
+              target.classList.contains("in") ||
+              target.dataset.animDone === "1"
+            ) {
+              observer?.unobserve(target);
+              return;
+            }
+            const delay = parseInt(target.dataset.animDelay, 10) || 0;
+            const t = setTimeout(() => {
+              target.classList.remove("anim-ready");
+              target.classList.add("in");
+              target.dataset.animDone = "1";
+            }, delay);
+            timeouts.add(t);
+            observer?.unobserve(target);
+          });
+        },
+        { threshold: 0.06, rootMargin: "0px 0px -5% 0px" },
+      );
 
       els.forEach((el) => {
-        const rect = el.getBoundingClientRect()
+        if (el.classList.contains("in") || el.dataset.animDone === "1") return;
+        const rect = el.getBoundingClientRect();
         if (rect.top < vh * 0.85) {
-          const delay = parseInt(el.dataset.animDelay, 10) || 0
-          setTimeout(() => {
-            el.classList.remove('anim-ready')
-            el.classList.add('in')
-          }, delay)
+          const delay = parseInt(el.dataset.animDelay, 10) || 0;
+          const t = setTimeout(() => {
+            el.classList.remove("anim-ready");
+            el.classList.add("in");
+            el.dataset.animDone = "1";
+          }, delay);
+          timeouts.add(t);
         } else {
-          observer.observe(el)
+          observer.observe(el);
         }
-      })
+      });
 
       // Mark animations as seen when user leaves (first visit complete)
-      beforeUnloadHandler = () => localStorage.setItem(STORAGE_KEY, '1')
-      window.addEventListener('beforeunload', beforeUnloadHandler)
-    }
+      beforeUnloadHandler = () => localStorage.setItem(STORAGE_KEY, "1");
+      window.addEventListener("beforeunload", beforeUnloadHandler);
+    };
 
-    requestAnimationFrame(() => requestAnimationFrame(run))
-  })
+    requestAnimationFrame(() => requestAnimationFrame(run));
+  });
 
   onUnmounted(() => {
-    observer?.disconnect()
+    observer?.disconnect();
     if (beforeUnloadHandler) {
-      window.removeEventListener('beforeunload', beforeUnloadHandler)
+      window.removeEventListener("beforeunload", beforeUnloadHandler);
     }
-  })
+  });
 }

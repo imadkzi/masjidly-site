@@ -1,15 +1,29 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted, onUnmounted } from "vue";
 import { showcase } from "@/data/siteContent";
 import SectionHeader from "@/components/SectionHeader.vue";
 
-const activeTab = ref("display");
+const currentIndex = ref(0);
+let intervalId = null;
 
 const activeItem = computed(
-  () =>
-    showcase.items?.find((item) => item.id === activeTab.value) ??
-    showcase.items?.[0]
+  () => showcase.items?.[currentIndex.value] ?? showcase.items?.[0]
 );
+
+onMounted(() => {
+  if (!showcase.items || showcase.items.length <= 1) return;
+  intervalId = window.setInterval(() => {
+    currentIndex.value =
+      (currentIndex.value + 1) % showcase.items.length;
+  }, 7000);
+});
+
+onUnmounted(() => {
+  if (intervalId !== null) {
+    clearInterval(intervalId);
+    intervalId = null;
+  }
+});
 </script>
 
 <template>
@@ -23,18 +37,6 @@ const activeItem = computed(
         tone="light"
       />
 
-      <div class="showcase__nav" data-animate>
-        <button
-          v-for="item in showcase.items"
-          :key="item.id"
-          class="showcase__nav-button"
-          :class="{ active: activeTab === item.id }"
-          @click="activeTab = item.id"
-        >
-          {{ item.label }}
-        </button>
-      </div>
-
       <div class="showcase__panels">
         <div class="showcase__panel" data-animate>
           <div class="showcase__frame">
@@ -46,6 +48,20 @@ const activeItem = computed(
             />
           </div>
           <p class="showcase__caption">{{ activeItem.caption }}</p>
+          <div
+            v-if="showcase.items && showcase.items.length > 1"
+            class="showcase__dots"
+          >
+            <button
+              v-for="(item, index) in showcase.items"
+              :key="item.id"
+              type="button"
+              class="showcase__dot"
+              :class="{ 'showcase__dot--active': index === currentIndex }"
+              @click="currentIndex = index"
+              :aria-label="`Show ${item.label}`"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -91,48 +107,12 @@ const activeItem = computed(
   max-width: 560px;
 }
 
-.showcase__header {
-  margin-bottom: 40px;
-}
-
-.showcase__nav {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 32px;
-  flex-wrap: wrap;
-}
-
-.showcase__nav-button {
-  font-family: $font-mono;
-  font-size: $font-size-caption;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 10px 20px;
-  border-radius: 8px;
-  border: 1px solid rgba(245, 240, 232, 0.12);
-  background: rgba(245, 240, 232, 0.04);
-  color: rgba(245, 240, 232, 0.5);
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.showcase__nav-button:hover {
-  color: rgba(245, 240, 232, 0.8);
-  background: rgba(245, 240, 232, 0.06);
-}
-
-.showcase__nav-button.active {
-  background: rgba(201, 168, 76, 0.15);
-  color: var(--gold);
-  border-color: rgba(201, 168, 76, 0.3);
-}
-
 .showcase__frame {
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid rgba(245, 240, 232, 0.08);
   box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4);
-  max-width: 900px;
+  max-width: 1120px;
   margin: 0 auto;
 }
 
@@ -156,16 +136,34 @@ const activeItem = computed(
   line-height: 1.6;
 }
 
+.showcase__dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.showcase__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(245, 240, 232, 0.4);
+  padding: 0;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.showcase__dot--active {
+  background: var(--gold);
+  transform: scale(1.4);
+}
+
 @media (max-width: 768px) {
   .showcase {
     padding: clamp(40px, 5vw, 56px) 0;
-  }
-  .showcase__nav {
-    margin-bottom: 24px;
-  }
-  .showcase__nav-button {
-    padding: 8px 16px;
-    font-size: $font-size-micro;
   }
 }
 
